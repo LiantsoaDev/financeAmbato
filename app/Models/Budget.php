@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Budgets;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Budgets extends Model 
+class Budget extends Model 
 {
 
     protected $table = 'budgets';
@@ -14,12 +14,12 @@ class Budgets extends Model
 
     public function compte()
     {
-        return $this->hasMany('App\Models\Comptes', 'compte_id');
+        return $this->hasMany('App\Models\Compte', 'compte_id');
     }
 
     public function realisation()
     {
-        return $this->hasMany('App\Models\Realisations', 'budget_id');
+        return $this->hasMany('App\Models\Realisation', 'budget_id');
     }
 
 }

@@ -4,7 +4,7 @@ namespace App\Models\Realisations;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Realisations extends Model 
+class Realisation extends Model 
 {
 
     protected $table = 'realisations';
@@ -14,7 +14,7 @@ class Realisations extends Model
 
     public function budget()
     {
-        return $this->belongsTo('App\Models\Budgets');
+        return $this->belongsTo('App\Models\Budget');
     }
 
 }

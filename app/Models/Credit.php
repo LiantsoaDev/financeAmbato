@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Credit;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,12 +14,12 @@ class Credit extends Model
 
     public function mouvement()
     {
-        return $this->hasMany('App\Models\Mouvements', 'mouvement_id');
+        return $this->hasMany('App\Models\Mouvement', 'mouvement_id');
     }
 
     public function compte()
     {
-        return $this->belongsTo('App\Models\Comptes');
+        return $this->belongsTo('App\Models\Compte');
     }
 
 }

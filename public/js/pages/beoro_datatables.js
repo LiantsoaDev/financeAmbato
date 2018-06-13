@@ -8,7 +8,7 @@
         beoro_datatables.table_tools();
         
         $('.dataTables_filter input').each(function() {
-            $(this).attr("placeholder", "Enter search terms here");
+            $(this).attr("placeholder", "Rechercher N°");
         })
     });
 

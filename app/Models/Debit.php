@@ -14,12 +14,12 @@ class Debit extends Model
 
     public function debit()
     {
-        return $this->hasMany('App\Models\Mouvements', 'mouvement_id');
+        return $this->hasMany('App\Models\Mouvement', 'mouvement_id');
     }
 
     public function compte()
     {
-        return $this->hasMany('App\Models\Comptes', 'compte_id');
+        return $this->hasMany('App\Models\Compte', 'compte_id');
     }
 
 }

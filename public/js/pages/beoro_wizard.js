@@ -41,18 +41,20 @@
                             required    : true,
                             minlength   : 3
                         },
-                        'v_email'       : 'email',
+                        'email'       : 'email',
                         'v_newsletter'  : 'required',
                         'v_password'    : 'required',
                         'v_city'        : 'required',
-                        'v_country'     : 'required'
+                        'v_entite'     : 'required',
+                        's_entite'      : 'required'
                     }, messages: {
-                        'v_username'    : { required:  'Username field is required!' },
-                        'v_email'       : { email   :  'Invalid e-mail!' },
+                        'v_username'    : { required:  'Le Nom d\'utilisateur est obligatoire!' },
+                        'email'       : { email   :  'E-mail invalide!' },
                         'v_newsletter'  : { required:  'Newsletter field is required!' },
-                        'v_password'    : { required:  'Password field is requerid!' },
+                        'v_password'    : { required:  'Le Mot de passe est obligatoire!' },
                         'v_city'        : { required:  'City field is requerid!' },
-                        'v_country'     : { required:  'Country field is requerid!' }
+                        'v_entite'     : { required:  'Vous devez appartenir à une entité!' },
+                        's_entite'     : { required:  'Vous devez selection un type d\' entité!' }
                     },
                     ignore              : ':hidden'
                 });

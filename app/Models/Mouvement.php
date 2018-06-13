@@ -4,7 +4,7 @@ namespace App\Models\Mouvement;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Mouvements extends Model 
+class Mouvement extends Model 
 {
 
     protected $table = 'mouvements';
