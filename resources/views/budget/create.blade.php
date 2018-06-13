@@ -113,7 +113,7 @@
 					        data: data,
 					        type: 'POST',
 					        success: function(data){
-					            alert(data);
+					            alert("Les modifications ont été enregistrés avec succès");
 					        }
 					    });
 				    });

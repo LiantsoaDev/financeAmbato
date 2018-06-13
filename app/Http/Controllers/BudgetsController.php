@@ -66,8 +66,25 @@ class BudgetsController extends Controller
     public function update(Request $request)
     {
         $data = $request->all();
+        $array = [];
+        $i = 0;
 
-        //$id = substr('abcdef', -1, 1);
+        foreach( $data as $key => $value )
+        {
+            $i++;
+            if( $i>9 && $i<99)
+                $id = substr($key, -2, 2 );
+            elseif( $i<9 )
+                $id = substr($key, -1, 1 );
+            else
+                $id = substr($key, -3, 3 );
+
+            if( 'libelle' . $id == $key )
+            {
+                $array[$id] = ['libelle' => $value , 'montant' => $data['montant'.$id] ];
+            }
+        }
+        dd($array);
     }
 
 
