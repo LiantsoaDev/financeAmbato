@@ -69,22 +69,17 @@ class BudgetsController extends Controller
         $array = [];
         $i = 0;
 
-        foreach( $data as $key => $value )
+        foreach ($data as $key => $value)
         {
-            $i++;
-            if( $i>9 && $i<99)
-                $id = substr($key, -2, 2 );
-            elseif( $i<9 )
-                $id = substr($key, -1, 1 );
-            else
-                $id = substr($key, -3, 3 );
-
-            if( 'libelle' . $id == $key )
+            if( !empty($value) )
             {
-                $array[$id] = ['libelle' => $value , 'montant' => $data['montant'.$id] ];
+                $id = str_replace("montant","",$key);
+                $udpate = Budget::findOrFail($id);
+                $update->montant = $value;
+                $update->save();
             }
         }
-        dd($array);
+        
     }
 
 

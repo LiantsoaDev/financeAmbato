@@ -325,6 +325,7 @@
 
         <!-- Editabl External JS -->    
         @yield('script')
+        <!-- end Editable External JS -->
 
 <script>
     if($(window).width() > '1280') {

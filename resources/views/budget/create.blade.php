@@ -18,6 +18,59 @@
 @section('content')
 <!-- main content -->
             <div class="container">
+
+                <div class="row-fluid">
+                    <div class="span12">
+                        <div class="w-box w-box-green">
+                            <div class="w-box-header">
+                                <h4>Site</h4>
+                                <i class="icsw16-settings icsw16-white pull-right"></i>
+                            </div>
+                            <div class="w-box-content cnt_a">
+                                <div class="row-fluid">
+                                    <div class="span12">
+                                        <p class="heading_a">Mail Settings</p>
+                                        <div class="row-fluid">
+                                            <div class="span6">
+                                                <div class="formSep">
+                                                    <label for="s_mailer">Mailer</label>
+                                                    <select id="s_mailer" name="s_mailer" class="span6">
+                                                        <option value="mail">PHP Mail</option>
+                                                        <option value="sendmail">Sendmail</option>
+                                                        <option value="smtp">SMTP</option>
+                                                    </select>
+                                                </div>
+                                                <div class="formSep">
+                                                    <label for="s_mail_from">From Email</label>
+                                                    <input type="text" class="span8" id="s_mail_from" name="s_mail_from" value="beoro@example.com" />
+                                                </div>
+                                                <div class="formSep">
+                                                    <label for="s_mail_name">From Name</label>
+                                                    <input type="text" class="span8" id="s_mail_name" name="s_mail_name" value="Beoro Admin" />
+                                                </div>
+                                            </div>
+                                            <div class="span6">
+                                                <div class="formSep">
+                                                    <label for="s_smtp_user">SMTP Username</label>
+                                                    <input type="text" class="span8" id="s_smtp_user" name="s_smtp_user" />
+                                                </div>
+                                                <div class="formSep">
+                                                    <label for="s_smtp_password">SMTP Password</label>
+                                                    <input type="text" class="span8" id="s_smtp_password" name="s_smtp_password" />
+                                                </div>
+                                                <div class="formSep">
+                                                    <label for="s_smtp_host">SMTP Host</label>
+                                                    <input type="text" class="span8" id="s_smtp_host" name="s_smtp_host" value="localhost" />
+                                                </div>
+                                            </div>
+                                        </div>  
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row-fluid">
                     <div class="span12">
 				<div class="w-box w-box-green">
@@ -43,7 +96,7 @@
                                     	<td>{{$cpts->compte}}</td>
                                     	<td>
                                     		<div class="span12">	
-                                                <input type="text" class="span12" id="inv_cl_name" name="libelle{{$key+1}}" value="{{$cpts->libelle}}"/>
+                                                {{$cpts->libelle}}
                                             </div>
                                          </td>
                                     	<td>
