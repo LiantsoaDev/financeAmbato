@@ -214,7 +214,9 @@
             $("#mask_date").inputmask("d/m/y",{ "placeholder": "dd/mm/yyyy" });
             $("#mask_phone").inputmask("mask", {"mask": "(999) 999-9999"});
             $("#mask_product").inputmask({"mask": "AA-999999a"});
-            $("#mask_numeric").inputmask('Ar 999.999,99', { numericInput: false });
+            for(var i=0; i<400; i++){
+                $("#mask_numeric"+i).inputmask('Ar 999.999.999,99', { numericInput: false });
+            }
             $("#mask_mac").inputmask({"mask": "**:**:**:**:**:**"});
             $("#mask_callback").inputmask("d/m/y",{ "placeholder": "dd/mm/yyyy", "oncomplete": function(){ alert('Date entered: '+$(this).val()); } });
         }

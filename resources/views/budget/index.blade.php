@@ -5,12 +5,12 @@
 @section('style')
 <!-- aditional stylesheets -->
         <!-- datatables -->
-            <link rel="stylesheet" href="{{asset('js/lib/datatables/css/datatables_beoro.css')}}">
-            <link rel="stylesheet" href="{{asset('js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/datatables/css/datatables_beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
 
 
         <!-- main stylesheet -->
-            <link rel="stylesheet" href="{{asset('css/beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/css/beoro.css')}}">
 @endsection
 
 
@@ -49,7 +49,7 @@
                                     	<td>93 000,00 Ar</td>
                                     	<td>
                                                 <div class="btn-group">
-                                                    <a href="#" class="btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>
+                                                <a href="{{route('budget.show','gTBtYrEP8X'.$cpts->id)}}" class="btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>
                                                     <a href="#" class="btn btn-mini" title="View"><i class="icon-eye-open"></i></a>
                                                     <a href="#" class="btn btn-mini" title="Delete"><i class="icon-trash"></i></a>
                                                 </div>
@@ -73,17 +73,17 @@
 
 @section('script')
  <!-- datatables -->
-            <script src="{{asset('js/lib/datatables/js/jquery.dataTables.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.min.js')}}"></script>
         <!-- datatables column reorder -->
-            <script src="{{asset('js/lib/datatables/extras/ColReorder/media/js/ColReorder.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/ColReorder/media/js/ColReorder.min.js')}}"></script>
         <!-- datatables column toggle visibility -->
-            <script src="{{asset('js/lib/datatables/extras/ColVis/media/js/ColVis.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/ColVis/media/js/ColVis.min.js')}}"></script>
         <!-- datatable table tools -->
-            <script src="{{asset('js/lib/datatables/extras/TableTools/media/js/TableTools.min.js')}}"></script>
-            <script src="{{asset('js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/TableTools.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
         <!-- datatables bootstrap integration -->
-            <script src="{{asset('js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
 
-            <script src="{{asset('js/pages/beoro_datatables.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_datatables.js')}}"></script>
 
 @endsection

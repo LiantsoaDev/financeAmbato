@@ -8,33 +8,33 @@
         <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
         <!-- X-CSRF-TOKEN -->
         @yield('meta')
-        <link rel="icon" type="image/ico" href="{{asset('favicon.ico')}}">
+        <link rel="icon" type="image/ico" href="{{asset('public/favicon.ico')}}">
         
     <!-- common stylesheets-->
         <!-- bootstrap framework css -->
-            <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap.min.css')}}">
-            <link rel="stylesheet" href="{{asset('bootstrap/css/bootstrap-responsive.min.css')}}">
+            <link rel="stylesheet" href="{{asset('public/bootstrap/css/bootstrap.min.css')}}">
+            <link rel="stylesheet" href="{{asset('public/bootstrap/css/bootstrap-responsive.min.css')}}">
         <!-- iconSweet2 icon pack (16x16) -->
-            <link rel="stylesheet" href="{{asset('img/icsw2_16/icsw2_16.css')}}">
+            <link rel="stylesheet" href="{{asset('public/img/icsw2_16/icsw2_16.css')}}">
         <!-- splashy icon pack -->
-            <link rel="stylesheet" href="{{asset('img/splashy/splashy.css')}}">
+            <link rel="stylesheet" href="{{asset('public/img/splashy/splashy.css')}}">
         <!-- flag icons -->
-            <link rel="stylesheet" href="{{asset('img/flags/flags.css')}}">
+            <link rel="stylesheet" href="{{asset('public/img/flags/flags.css')}}">
         <!-- power tooltips -->
-            <link rel="stylesheet" href="{{asset('js/lib/powertip/jquery.powertip.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/powertip/jquery.powertip.css')}}">
         <!-- google web fonts -->
             <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Abel">
             <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300">
 
     <!-- aditional stylesheets -->
         <!-- colorbox -->
-            <link rel="stylesheet" href="{{asset('js/lib/colorbox/colorbox.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/colorbox/colorbox.css')}}">
         <!--fullcalendar -->
-            <link rel="stylesheet" href="{{asset('js/lib/fullcalendar/fullcalendar_beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/fullcalendar/fullcalendar_beoro.css')}}">
 
 
         <!-- main stylesheet -->
-            <link rel="stylesheet" href="{{asset('css/beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/css/beoro.css')}}">
 
         <!-- Externl Style Css -->
             @yield('style')
@@ -68,10 +68,13 @@
                                     <a href="javascript:void(0)">Budgetisations</a>
                                     <ul>
                                         <li>
-                                            <a href="{{route('add.budget')}}">Listes</a>
+                                            <a href="{{route('budget.list')}}">Listes</a>
                                         </li>
                                         <li>
-                                            <a href="{{route('create.budget')}}">Insertion</a>
+                                            <a href="{{route('create.budget')}}">Nouveau budget</a>
+                                        </li>
+                                        <li>
+                                            <a href="#">Editer un budget</a>
                                         </li>
                                         <li>
                                             <a href="index463f.html?page=form_validation">Registres</a>
@@ -80,10 +83,20 @@
                                             <a href="index463f.html?page=form_validation">Paramêtres</a>
                                         </li>
                                         <li>
-                                            <a href="index463f.html?page=form_validation">Import</a>
+                                            <a href="#">Importer</a>
+                                            <ul>
+                                                <li><a href="{{route('budget.manual')}}">manuellement</a></li>
+                                                <li>
+                                                    <a href="#">depuis un fichier</a>
+                                                    <ul>
+                                                            <li><a href="#">.csv</a></li>
+                                                            <li><a href="#">.xlxs</a></li>
+                                                        </ul>
+                                                </li>
+                                            </ul>
                                         </li>
                                         <li>
-                                            <a href="index463f.html?page=form_validation">Export</a>
+                                            <a href="index463f.html?page=form_validation">Exporter</a>
                                         </li>
                                     </ul>
                                 </li>
@@ -201,7 +214,7 @@
                 <div class="container">
                     <div class="row">
                         <div class="span3">
-                            <div class="main-logo"><a href="{{route('home')}}"><img src="{{asset('img/beoro_logo.png')}}" alt="Beoro Admin"></a></div>
+                            <div class="main-logo"><a href="{{route('home')}}"><img src="{{asset('public/img/beoro_logo.png')}}" alt="Beoro Admin"></a></div>
                         </div>
                         <div class="span5">
                             <nav class="nav-icons">
@@ -226,7 +239,7 @@
                         <div class="span4">
                             <div class="user-box">
                                 <div class="user-box-inner">
-                                    <img src="{{asset('img/avatars/avatar.png')}}" alt="" class="user-avatar img-avatar">
+                                    <img src="{{asset('public/img/avatars/avatar.png')}}" alt="" class="user-avatar img-avatar">
                                     <div class="user-info">
                                         Welcome, <strong>{{ Auth::user()->name }}</strong>
                                         <ul class="unstyled">
@@ -297,30 +310,30 @@
         
     <!-- Common JS -->
         <!-- jQuery framework -->
-            <script src="{{asset('js/jquery.min.js')}}"></script>
-            <script src="{{asset('js/jquery-migrate.js')}}"></script>
+            <script src="{{asset('public/js/jquery.min.js')}}"></script>
+            <script src="{{asset('public/js/jquery-migrate.js')}}"></script>
         <!-- bootstrap Framework plugins -->
-            <script src="{{asset('bootstrap/js/bootstrap.min.js')}}"></script>
+            <script src="{{asset('public/bootstrap/js/bootstrap.min.js')}}"></script>
         <!-- top menu -->
-            <script src="{{asset('js/jquery.fademenu.js')}}"></script>
+            <script src="{{asset('public/js/jquery.fademenu.js')}}"></script>
         <!-- top mobile menu -->
-            <script src="{{asset('js/selectnav.min.js')}}"></script>
+            <script src="{{asset('public/js/selectnav.min.js')}}"></script>
         <!-- actual width/height of hidden DOM elements -->
-            <script src="{{asset('js/jquery.actual.min.js')}}"></script>
+            <script src="{{asset('public/js/jquery.actual.min.js')}}"></script>
         <!-- jquery easing animations -->
-            <script src="{{asset('js/jquery.easing.1.3.min.js')}}"></script>
+            <script src="{{asset('public/js/jquery.easing.1.3.min.js')}}"></script>
         <!-- power tooltips -->
-            <script src="{{asset('js/lib/powertip/jquery.powertip-1.1.0.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/powertip/jquery.powertip-1.1.0.min.js')}}"></script>
         <!-- date library -->
-            <script src="{{asset('js/moment.min.js')}}"></script>
+            <script src="{{asset('public/js/moment.min.js')}}"></script>
         <!-- common functions -->
-            <script src="{{asset('js/beoro_common.js')}}"></script>
+            <script src="{{asset('public/js/beoro_common.js')}}"></script>
 
     <!-- Dashboard JS -->
         <!-- jQuery UI -->
-            <script src="{{asset('js/lib/jquery-ui/jquery-ui-1.10.2.custom.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/jquery-ui/jquery-ui-1.10.2.custom.min.js')}}"></script>
         <!-- touch event support for jQuery UI -->
-            <script src="{{asset('js/lib/jquery-ui/jquery.ui.touch-punch.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/jquery-ui/jquery.ui.touch-punch.min.js')}}"></script>
         
 
         <!-- Editabl External JS -->    

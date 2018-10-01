@@ -6,12 +6,12 @@
     <link rel="icon" type="image/ico" href="favicon.ico">
     <title>{{config('app.name')}} - Login</title>
 
-    <link rel="stylesheet" href="{{asset('css/login.css')}}">
+    <link rel="stylesheet" href="{{asset('public/css/login.css')}}">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300' rel='stylesheet'>
     <!-- jQuery framework -->
-        <script src="{{asset('js/jquery.min.js')}}"></script>
+        <script src="{{asset('public/js/jquery.min.js')}}"></script>
     <!-- validation -->
-    <script src="{{asset('js/lib/jquery-validation/jquery.validate.js')}}"></script>
+    <script src="{{asset('public/js/lib/jquery-validation/jquery.validate.js')}}"></script>
     
     <script type="text/javascript">
         (function(a){a.fn.vAlign=function(){return this.each(function(){var b=a(this).height(),c=a(this).outerHeight(),b=(b+(c-b))/2;a(this).css("margin-top","-"+b+"px");a(this).css("top","50%");a(this).css("position","absolute")})}})(jQuery);(function(a){a.fn.hAlign=function(){return this.each(function(){var b=a(this).width(),c=a(this).outerWidth(),b=(b+(c-b))/2;a(this).css("margin-left","-"+b+"px");a(this).css("left","50%");a(this).css("position","absolute")})}})(jQuery);
@@ -51,7 +51,7 @@
 <body>
     <div id="login-wrapper" class="clearfix">
         <div class="main-col">
-            <img src="{{asset('img/beoro.png')}}" alt="" class="logo_img" />
+            <img src="{{asset('public/img/beoro.png')}}" alt="" class="logo_img" />
 
             <div class="panel">
                 <p class="heading_main">Accès Administrateur</p>

@@ -34,11 +34,17 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	Route::get('getentite/{type}',['as' => 'get.entite','uses' => 'EntitesController@store'])->where('type','[a-z0-9\-]+');
 
 	//Route form lists Budget 
-	Route::get('add-budget',['as' => 'add.budget', 'uses' => 'BudgetsController@index']);
-	//Create a new instance of Budget 
+	Route::get('lists-budgets',['as' => 'budget.list', 'uses' => 'BudgetsController@list']);
+	//Show form to create a new instance of Budget 
 	Route::get('create-budget',['as' => 'create.budget', 'uses' => 'BudgetsController@create']);
-	//Update a instance of Budget
-	Route::post('update-budget',['as' => 'update.budget', 'uses' => 'BudgetsController@update']);
+	//Action: insert a new instance of Budget
+	Route::post('insert-budget',['as' => 'insert.budget', 'uses' => 'BudgetsController@insert']);
+	//show form to update instance of Budget
+	Route::get('show/{cryptid}',['as' => 'budget.show', 'uses' => 'BudgetsController@show'])->middleware('decryptid');
+	//Action: update instance of Budget
+	Route::post('update-budget',['as' => 'budget.update', 'uses' => 'BudgetsController@update']);
+	//Show page importation manuelle of Budget
+	Route::get('import-manual-budget',['as' => 'budget.manual', 'uses' => 'BudgetsController@importmanual']);
 
 });
 

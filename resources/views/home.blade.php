@@ -3,8 +3,8 @@
 @section('style')
 <!-- aditional stylesheets -->
         <!-- datatables -->
-            <link rel="stylesheet" href="{{asset('js/lib/datatables/css/datatables_beoro.css')}}">
-            <link rel="stylesheet" href="{{asset('js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/datatables/css/datatables_beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
 @endsection
 
 @section('content')
@@ -490,34 +490,34 @@
 
 @section('script')
 <!-- colorbox -->
-            <script src="{{asset('js/lib/colorbox/jquery.colorbox.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/colorbox/jquery.colorbox.min.js')}}"></script>
         <!-- fullcalendar -->
-            <script src="{{asset('js/lib/fullcalendar/fullcalendar.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/fullcalendar/fullcalendar.min.js')}}"></script>
         <!-- flot charts -->
-            <script src="{{asset('js/lib/flot-charts/jquery.flot.js')}}"></script>
-            <script src="{{asset('js/lib/flot-charts/jquery.flot.resize.js')}}"></script>
-            <script src="{{asset('js/lib/flot-charts/jquery.flot.pie.js')}}"></script>
-            <script src="{{asset('js/lib/flot-charts/jquery.flot.orderBars.js')}}"></script>
-            <script src="{{asset('js/lib/flot-charts/jquery.flot.tooltip.js')}}"></script>
-            <script src="{{asset('js/lib/flot-charts/jquery.flot.time.js')}}"></script>
+            <script src="{{asset('public/js/lib/flot-charts/jquery.flot.js')}}"></script>
+            <script src="{{asset('public/js/lib/flot-charts/jquery.flot.resize.js')}}"></script>
+            <script src="{{asset('public/js/lib/flot-charts/jquery.flot.pie.js')}}"></script>
+            <script src="{{asset('public/js/lib/flot-charts/jquery.flot.orderBars.js')}}"></script>
+            <script src="{{asset('public/js/lib/flot-charts/jquery.flot.tooltip.js')}}"></script>
+            <script src="{{asset('public/js/lib/flot-charts/jquery.flot.time.js')}}"></script>
         <!-- responsive carousel -->
-            <script src="{{asset('js/lib/carousel/plugin.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/carousel/plugin.min.js')}}"></script>
         <!-- responsive image grid -->
-            <script src="{{asset('js/lib/wookmark/jquery.imagesloaded.min.js')}}"></script>
-            <script src="{{asset('js/lib/wookmark/jquery.wookmark.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/wookmark/jquery.imagesloaded.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/wookmark/jquery.wookmark.min.js')}}"></script>
 
-            <script src="{{asset('js/pages/beoro_dashboard.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_dashboard.js')}}"></script>
  <!-- datatables -->
-            <script src="{{asset('js/lib/datatables/js/jquery.dataTables.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.min.js')}}"></script>
         <!-- datatables column reorder -->
-            <script src="{{asset('js/lib/datatables/extras/ColReorder/media/js/ColReorder.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/ColReorder/media/js/ColReorder.min.js')}}"></script>
         <!-- datatables column toggle visibility -->
-            <script src="{{asset('js/lib/datatables/extras/ColVis/media/js/ColVis.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/ColVis/media/js/ColVis.min.js')}}"></script>
         <!-- datatable table tools -->
-            <script src="{{asset('js/lib/datatables/extras/TableTools/media/js/TableTools.min.js')}}"></script>
-            <script src="{{asset('js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/TableTools.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
         <!-- datatables bootstrap integration -->
-            <script src="{{asset('js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
 
-            <script src="{{asset('js/pages/beoro_datatables.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_datatables.js')}}"></script>
 @endsection

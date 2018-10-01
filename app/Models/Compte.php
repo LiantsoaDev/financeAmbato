@@ -29,7 +29,7 @@ class Compte extends Model
      * @var array
      */
 
-    protected $fillable = array('compte', 'libelle', 'type');
+    protected $fillable = array('id','compte', 'libelle', 'type');
 
     /**
      * The attributes that are mass visibles.
@@ -37,7 +37,7 @@ class Compte extends Model
      * @var array
      */
 
-    protected $visible = array('compte', 'libelle', 'type');
+    protected $visible = array('id','compte', 'libelle', 'type');
 
     /**
      * A compte can have many credit

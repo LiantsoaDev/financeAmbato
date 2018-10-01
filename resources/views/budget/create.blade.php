@@ -7,75 +7,32 @@
 @section('style')
 <!-- aditional stylesheets -->
         <!-- datatables -->
-            <link rel="stylesheet" href="{{asset('js/lib/datatables/css/datatables_beoro.css')}}">
-            <link rel="stylesheet" href="{{asset('js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
-
-
+            <link rel="stylesheet" href="{{asset('public/js/lib/datatables/css/datatables_beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
+        <!-- aditional stylesheets -->
+        <!-- jQuery UI theme -->
+            <link rel="stylesheet" href="{{asset('public/js/lib/jquery-ui/css/Aristo/Aristo.css')}}">
+        <!-- datepicker -->
+            <link rel="stylesheet" href="{{asset('public/js/lib/bootstrap-datepicker/css/datepicker.css')}}">
         <!-- main stylesheet -->
-            <link rel="stylesheet" href="{{asset('css/beoro.css')}}">
+            <link rel="stylesheet" href="{{asset('public/css/beoro.css')}}">
 @endsection
 
 @section('content')
 <!-- main content -->
             <div class="container">
-
-                <div class="row-fluid">
-                    <div class="span12">
-                        <div class="w-box w-box-green">
-                            <div class="w-box-header">
-                                <h4>Site</h4>
-                                <i class="icsw16-settings icsw16-white pull-right"></i>
-                            </div>
-                            <div class="w-box-content cnt_a">
-                                <div class="row-fluid">
-                                    <div class="span12">
-                                        <p class="heading_a">Mail Settings</p>
-                                        <div class="row-fluid">
-                                            <div class="span6">
-                                                <div class="formSep">
-                                                    <label for="s_mailer">Mailer</label>
-                                                    <select id="s_mailer" name="s_mailer" class="span6">
-                                                        <option value="mail">PHP Mail</option>
-                                                        <option value="sendmail">Sendmail</option>
-                                                        <option value="smtp">SMTP</option>
-                                                    </select>
-                                                </div>
-                                                <div class="formSep">
-                                                    <label for="s_mail_from">From Email</label>
-                                                    <input type="text" class="span8" id="s_mail_from" name="s_mail_from" value="beoro@example.com" />
-                                                </div>
-                                                <div class="formSep">
-                                                    <label for="s_mail_name">From Name</label>
-                                                    <input type="text" class="span8" id="s_mail_name" name="s_mail_name" value="Beoro Admin" />
-                                                </div>
-                                            </div>
-                                            <div class="span6">
-                                                <div class="formSep">
-                                                    <label for="s_smtp_user">SMTP Username</label>
-                                                    <input type="text" class="span8" id="s_smtp_user" name="s_smtp_user" />
-                                                </div>
-                                                <div class="formSep">
-                                                    <label for="s_smtp_password">SMTP Password</label>
-                                                    <input type="text" class="span8" id="s_smtp_password" name="s_smtp_password" />
-                                                </div>
-                                                <div class="formSep">
-                                                    <label for="s_smtp_host">SMTP Host</label>
-                                                    <input type="text" class="span8" id="s_smtp_host" name="s_smtp_host" value="localhost" />
-                                                </div>
-                                            </div>
-                                        </div>  
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
+                @if($option)
+                    <!-- inc. import. manual.  -->
+                    @include('budget.manual')
+                    <!-- end import. manual -->
+                @endif
 
                 <div class="row-fluid">
                     <div class="span12">
 				<div class="w-box w-box-green">
                             <div class="w-box-header">
-                                <h4>Basic Datatables</h4>
+                                <h4>Conception du Budget pour l'année {{\Carbon\Carbon::now()->addYears(1)->format('Y')}}</h4>
                             </div>
                             <div class="w-box-content">
                                 <table id="dt_basic" class="dataTables_full table table-striped">
@@ -89,8 +46,8 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <form action="{{route('update.budget')}}" method="POST">	
-								@foreach($comptes as $key => $cpts)
+                                <form action="{{route('insert.budget')}}" method="POST">	
+                                @foreach($comptes as $key => $cpts)
                                     <tr>
                                     	<td>{{$cpts->id}}</td>
                                     	<td>{{$cpts->compte}}</td>
@@ -110,7 +67,7 @@
                                          </td>
                                     	<td>
                                     		<div class="input-append">
-		                                        <input type="numeric" id="mask_numeric" class="span10" placeholder="Ar ___,__,__" name="montant{{$key+1}}" ><span class="add-on">.00 MGA</span>
+                                            <input type="numeric" id="mask_numeric{{$key}}" class="span10" name="montant{{$key+1}}" placeholder="Ar ___.___.___.__" ><span class="add-on">.00 MGA</span>
 		                                    </div>
                                          </td>
                                     </tr>
@@ -119,7 +76,7 @@
                                 </table>
                                 <div class="w-box-footer">
                                     <div class="f-center">
-                                        <button type="submit" class="btn btn-beoro-3">Enregistrer</button>
+                                        <button type="submit" class="btn btn-beoro-3" id="validate">Enregistrer</button>
                                         <button type="reset" class="btn btn-link inv-cancel">Annuler</button>
                                     </div>
                                 </div>
@@ -133,33 +90,36 @@
 
 @section('script')
  <!-- datatables -->
-            <script src="{{asset('js/lib/datatables/js/jquery.dataTables.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.min.js')}}"></script>
         <!-- datatables column reorder -->
-            <script src="{{asset('js/lib/datatables/extras/ColReorder/media/js/ColReorder.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/ColReorder/media/js/ColReorder.min.js')}}"></script>
         <!-- datatables column toggle visibility -->
-            <script src="{{asset('js/lib/datatables/extras/ColVis/media/js/ColVis.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/ColVis/media/js/ColVis.min.js')}}"></script>
         <!-- datatable table tools -->
-            <script src="{{asset('js/lib/datatables/extras/TableTools/media/js/TableTools.min.js')}}"></script>
-            <script src="{{asset('js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/TableTools.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
         <!-- datatables bootstrap integration -->
-            <script src="{{asset('js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
 
-            <script src="{{asset('js/pages/beoro_datatables.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_datatables.js')}}"></script>
             <!-- masked inputs -->
-            <script src="{{asset('js/lib/jquery-inputmask/jquery.inputmask.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/jquery-inputmask/jquery.inputmask.min.js')}}"></script>
             <!-- WYSIWG Editor -->
-            <script src="{{asset('js/lib/ckeditor/ckeditor.js')}}"></script>
-            <script src="{{asset('js/pages/beoro_form_elements.js')}}"></script>
+            <script src="{{asset('public/js/lib/ckeditor/ckeditor.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_form_elements.js')}}"></script>
+        <!-- datepicker -->
+        <script src="{{asset('public/js/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+            <!-- additionnal javascript -->
             <script type="text/javascript">
             	$(document).ready(function() {
     				var table = $('#dt_basic').DataTable();
 
-				    $('button').click( function(e) {
+				    $('#validate').click( function(e) {
 				    	e.preventDefault();
-				        var data = table.$('input, select').serialize();
+                        var data = table.$('input, select').serialize();
 				        // Submit form data via Ajax
 					      $.ajax({
-					        url: '{{route('update.budget')}}',
+					        url: '{{route('insert.budget')}}',
 					        headers: {
 					                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
 					       },
