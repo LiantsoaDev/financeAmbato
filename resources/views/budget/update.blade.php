@@ -3,8 +3,8 @@
 @section('style')
 <!-- aditional stylesheets -->
         <!-- x-editable -->
-        <link rel="stylesheet" href="{{asset('js/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css')}}">
-        <link rel="stylesheet" href="{{asset('js/lib/x-editable/inputs-ext/address/address.css')}}">
+        <link rel="stylesheet" href="{{asset('public/js/lib/x-editable/bootstrap-editable/css/bootstrap-editable.css')}}">
+        <link rel="stylesheet" href="{{asset('public/js/lib/x-editable/inputs-ext/address/address.css')}}">
 @endsection
 
 
@@ -92,11 +92,11 @@
 @section('script')
 
 <!-- Mockjax -->
-    <script src="{{asset('js/jquery.mockjax.js')}}"></script>
+    <script src="{{asset('public/js/jquery.mockjax.js')}}"></script>
 <!-- x-editable -->
-    <script src="{{asset('js/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js')}}"></script>
-    <script src="{{asset('js/lib/x-editable/inputs-ext/address/address.js')}}"></script>
+    <script src="{{asset('public/js/lib/x-editable/bootstrap-editable/js/bootstrap-editable.min.js')}}"></script>
+    <script src="{{asset('public/js/lib/x-editable/inputs-ext/address/address.js')}}"></script>
 
-    <script src="{{asset('js/pages/beoro_editable_elements.js')}}"></script>
+    <script src="{{asset('public/js/pages/beoro_editable_elements.js')}}"></script>
 
 @endsection

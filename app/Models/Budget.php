@@ -47,7 +47,7 @@ class Budget extends Model
 
     public function compte()
     {
-        return $this->hasMany('App\Models\Compte', 'compte_id');
+        return $this->belongsToMany('App\Models\Compte','budget_compte','budget_id','compte_id');
     }
 
     /**

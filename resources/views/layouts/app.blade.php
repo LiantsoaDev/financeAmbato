@@ -85,7 +85,7 @@
                                         <li>
                                             <a href="#">Importer</a>
                                             <ul>
-                                                <li><a href="{{route('budget.manual')}}">manuellement</a></li>
+                                                <li><a href="{{route('budget.selection')}}">manuellement</a></li>
                                                 <li>
                                                     <a href="#">depuis un fichier</a>
                                                     <ul>

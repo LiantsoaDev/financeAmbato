@@ -3,7 +3,7 @@
 @section('style')
 <!-- aditional stylesheets -->
         <!-- smart wizard -->
-            <link rel="stylesheet" href="{{asset('js/lib/smart-wizard/styles/smart_wizard.css')}}">     
+            <link rel="stylesheet" href="{{asset('public/js/lib/smart-wizard/styles/smart_wizard.css')}}">     
 @endsection
 
 @section('content')
@@ -79,10 +79,10 @@
 
 @section('script')
 <!-- smart wizard -->
-            <script src="{{asset('js/lib/smart-wizard/js/jquery.smartWizard.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/smart-wizard/js/jquery.smartWizard.min.js')}}"></script>
         <!-- validation -->
-            <script src="{{asset('js/lib/jquery-validation/jquery.validate.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/jquery-validation/jquery.validate.min.js')}}"></script>
 
-            <script src="{{asset('js/pages/beoro_wizard.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_wizard.js')}}"></script>
             @include('notify.index')
 @endsection

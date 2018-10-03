@@ -34,17 +34,19 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	Route::get('getentite/{type}',['as' => 'get.entite','uses' => 'EntitesController@store'])->where('type','[a-z0-9\-]+');
 
 	//Route form lists Budget 
-	Route::get('lists-budgets',['as' => 'budget.list', 'uses' => 'BudgetsController@list']);
+	Route::get('lists-budgets',['as' => 'budget.list', 'uses' => 'ComptesController@list']);
 	//Show form to create a new instance of Budget 
 	Route::get('create-budget',['as' => 'create.budget', 'uses' => 'BudgetsController@create']);
-	//Action: insert a new instance of Budget
+	//Action: Insertion d'une nouvelle instance Budget
 	Route::post('insert-budget',['as' => 'insert.budget', 'uses' => 'BudgetsController@insert']);
-	//show form to update instance of Budget
+	//Affichage formulaire de l'Instance Budget
 	Route::get('show/{cryptid}',['as' => 'budget.show', 'uses' => 'BudgetsController@show'])->middleware('decryptid');
-	//Action: update instance of Budget
+	//Action: Mise à jour Instance Budget
 	Route::post('update-budget',['as' => 'budget.update', 'uses' => 'BudgetsController@update']);
-	//Show page importation manuelle of Budget
-	Route::get('import-manual-budget',['as' => 'budget.manual', 'uses' => 'BudgetsController@importmanual']);
+	//Affichage de la page de selection pour importation
+	Route::get('selection',['as' => 'budget.selection','uses' => 'BudgetsController@selection']);
+	//Affichage de la page d'importation manuelle
+	Route::post('import-manual-budget',['as' => 'budget.manual', 'uses' => 'BudgetsController@manual']);
 
 });
 

@@ -1,8 +1,8 @@
 <!-- aditional stylesheets -->
         <!-- sticky notifications -->
-            <link rel="stylesheet" href="{{asset('js/lib/sticky/sticky.css')}}"> 
+            <link rel="stylesheet" href="{{asset('public/js/lib/sticky/sticky.css')}}"> 
 <!-- sticky notifications -->
-            <script src="{{asset('js/lib/sticky/sticky.min.js')}}"></script>           
+            <script src="{{asset('public/js/lib/sticky/sticky.min.js')}}"></script>           
 <script type="text/javascript">
             function notified(){
             	@if( Session::has('success'))

@@ -31,11 +31,11 @@
                                         <th>id</th>
                                         <th style=" width: 100px">Numero de compte</th>
                                         <th style=" width: 200px">Libelle</th>
-                                        <th>Type</th>
-                                        <th>Montant en Ar</th>
+                                        <th>B/C</th>
+                                        <th>Réalisations</th>
                                         <th>Action</th>
                                         <th>B{{\Carbon\Carbon::now()->subYears(1)->format('Y')}}</th>
-                                        <th>B{{\Carbon\Carbon::now()->subYears(2)->format('Y')}}</th>
+                                        <th>Rapport en % </th>
                                         
                                     </tr>
                                 </thead>
@@ -45,7 +45,7 @@
                                     	<td>{{$cpts->id}}</td>
                                     	<td>{{$cpts->compte}}</td>
                                     	<td>{{$cpts->libelle}}</td>
-                                    	<td>{{$cpts->type}}</td>
+                                    	<td>C</td>
                                     	<td>93 000,00 Ar</td>
                                     	<td>
                                                 <div class="btn-group">

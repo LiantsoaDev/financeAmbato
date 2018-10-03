@@ -21,18 +21,12 @@
 @section('content')
 <!-- main content -->
             <div class="container">
-                
-                @if($option)
-                    <!-- inc. import. manual.  -->
-                    @include('budget.manual')
-                    <!-- end import. manual -->
-                @endif
 
                 <div class="row-fluid">
                     <div class="span12">
 				<div class="w-box w-box-green">
                             <div class="w-box-header">
-                                <h4>Conception du Budget pour l'année {{\Carbon\Carbon::now()->addYears(1)->format('Y')}}</h4>
+                            <h4>Conception du Budget pour l'année {{empty($annee)? null: $annee}}</h4>
                             </div>
                             <div class="w-box-content">
                                 <table id="dt_basic" class="dataTables_full table table-striped">
@@ -47,6 +41,7 @@
                                 </thead>
                                 <tbody>
                                 <form action="{{route('insert.budget')}}" method="POST">	
+                                <input id="year" type="hidden" name="year" value="{{$annee}}">
                                 @foreach($comptes as $key => $cpts)
                                     <tr>
                                     	<td>{{$cpts->id}}</td>
@@ -109,7 +104,13 @@
             <script src="{{asset('public/js/pages/beoro_form_elements.js')}}"></script>
         <!-- datepicker -->
         <script src="{{asset('public/js/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
-            <!-- additionnal javascript -->
+
+        <!-- aditional stylesheets -->
+        <!-- sticky notifications -->
+        <link rel="stylesheet" href="{{asset('public/js/lib/sticky/sticky.css')}}"> 
+        <!-- sticky notifications -->
+        <script src="{{asset('public/js/lib/sticky/sticky.min.js')}}"></script>   
+        <!-- additionnal javascript -->
             <script type="text/javascript">
             	$(document).ready(function() {
     				var table = $('#dt_basic').DataTable();
@@ -121,12 +122,13 @@
 					      $.ajax({
 					        url: '{{route('insert.budget')}}',
 					        headers: {
-					                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+					                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                                    'id' : {{$annee}}
 					       },
 					        data: data,
 					        type: 'POST',
 					        success: function(data){
-					            alert("Les modifications ont été enregistrés avec succès");
+					            $.sticky("<b>Succès!</b> <br> <h5>Les Entrées ont été ajoutés avec succès </h5>", {autoclose : 10000, position: "top-right", type: "st-success" });
 					        }
 					    });
 				    });

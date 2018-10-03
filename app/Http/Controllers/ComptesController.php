@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Comptes;
+use App\Models\Compte;
 
 class ComptesController extends Controller
 {
@@ -28,5 +28,17 @@ class ComptesController extends Controller
     public function show()
     {
 
+    }
+
+    /**
+     * listes des comptes 
+     * 
+     * @return \Illuminate\Http\Response
+     */
+
+    public function list()
+    {   
+        $comptes = Compte::all();
+    	return view('budget.index',compact('comptes'));
     }
 }
