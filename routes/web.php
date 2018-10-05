@@ -48,6 +48,15 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	//Affichage de la page d'importation manuelle
 	Route::post('import-manual-budget',['as' => 'budget.manual', 'uses' => 'BudgetsController@manual']);
 
+	//Selection d'un budget dans la table d'historique
+	Route::get('selection-budgetaire/{annee}',['as' => 'select.budget','uses' => 'BudgetsController@select_budget'])->where('annee','[0-9]+');
+	//Suppression d'un budget
+	Route::post('suppression-budget',['as' => 'budget.confirmation','uses' => 'BudgetsController@confirmation']);
+	//Registration des budgets
+	Route::get('registres-des-budgets',['as' => 'budget.register','uses' => 'BudgetsController@registration']);
+
+	//Realisations 
+	Route::get('realisations',['as' => 'realisation.index','uses' => 'RealisationsController@index']);
 });
 
 

@@ -62,8 +62,8 @@
                                          </td>
                                     	<td>
                                     		<div class="input-append">
-                                            <input type="numeric" id="mask_numeric{{$key}}" class="span10" name="montant{{$key+1}}" placeholder="Ar ___.___.___.__" ><span class="add-on">.00 MGA</span>
-		                                    </div>
+                                            <input type="numeric" id="mask_numeric{{$key}}" class="span10" name="montant{{$cpts->id}}" placeholder="Ar ___.___.___.__" value="{{ (!empty($budget[$cpts->id])? $budget[$cpts->id] :null) }}"><span class="add-on">.00 MGA</span>
+                                        </div>
                                          </td>
                                     </tr>
 								@endforeach
@@ -72,7 +72,7 @@
                                 <div class="w-box-footer">
                                     <div class="f-center">
                                         <button type="submit" class="btn btn-beoro-3" id="validate">Enregistrer</button>
-                                        <button type="reset" class="btn btn-link inv-cancel">Annuler</button>
+                                        <a href="{{route('budget.selection')}}" type="reset" class="btn btn-default">Retour</a>
                                     </div>
                                 </div>
                                 </form>

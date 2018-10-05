@@ -29,7 +29,7 @@ class Budget extends Model
      * @var array
      */
 
-    protected $fillable = array('libelle', 'montant');
+    protected $fillable = array('realisation_id','annee_id','entite_id','compte_id','libelle', 'montant');
 
     /**
      * The attributes that are mass visible.
@@ -37,7 +37,7 @@ class Budget extends Model
      * @var array
      */
 
-    protected $visible = array('libelle', 'montant');
+    protected $visible = array('realisation_id','annee_id','entite_id','compte_id','libelle', 'montant');
 
     /**
      * A type can have many compte
@@ -47,7 +47,7 @@ class Budget extends Model
 
     public function compte()
     {
-        return $this->belongsToMany('App\Models\Compte','budget_compte','budget_id','compte_id');
+        return $this->belongsTo('App\Models\Compte');
     }
 
     /**
@@ -58,7 +58,7 @@ class Budget extends Model
 
     public function realisation()
     {
-        return $this->hasMany('App\Models\Realisation', 'budget_id');
+        return $this->hasMany('App\Models\Realisation', 'realisation_id');
     }
 
     /**
@@ -69,7 +69,7 @@ class Budget extends Model
 
     public function annee()
     {
-        return $this->hasOne('App\Models\Annee','annee_id');
+        return $this->belongsTo('App\Models\Annee','annee_id');
     }
 
 }

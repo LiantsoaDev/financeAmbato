@@ -33,6 +33,6 @@ class Annee extends Model
 
     public function budget()
     {
-    	$this->belongsTo('App\Models\Budget');
+    	$this->hasMany('App\Models\Budget');
     }
 }

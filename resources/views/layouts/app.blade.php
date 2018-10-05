@@ -77,7 +77,7 @@
                                             <a href="#">Editer un budget</a>
                                         </li>
                                         <li>
-                                            <a href="index463f.html?page=form_validation">Registres</a>
+                                            <a href="{{route('budget.register')}}">Registres</a>
                                         </li>
                                         <li>
                                             <a href="index463f.html?page=form_validation">Paramêtres</a>
@@ -100,10 +100,10 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="javascript:void(0)">Components</a>
+                                <li><a href="javascript:void(0)">Réalisations</a>
                                     <ul>
                                         <li>
-                                            <a href="indexb320.html?page=calendar">Calendar</a>
+                                            <a href="{{route('realisation.index')}}">Formulaire de saisie</a>
                                         </li>
                                         <li>
                                             <a href="indexb730.html?page=charts">Charts</a>

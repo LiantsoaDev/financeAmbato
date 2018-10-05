@@ -58,10 +58,13 @@ class DatesController extends Controller
 
      public function exists(){  
         $get = Annee::where('annee',$this->date)->first();
-        if( !is_null($get) )
+        if( !is_null($get) ){
+             //si le budget existe : true
             return $this->check = true;
-        else
+        }else{
+            //si le budget n'existe pas
             return $this->check;
+        }   
      }
 
     /**

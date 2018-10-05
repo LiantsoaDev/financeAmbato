@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Compte extends Model 
 {
@@ -69,7 +70,7 @@ class Compte extends Model
 
     public function budget()
     {
-        return $this->belongsTo('App\Models\Budget');
+        return $this->hasMany('App\Models\Budget','budget_id');
     }
 
     /**
@@ -99,4 +100,17 @@ class Compte extends Model
         else
             return ' - ';
     }
+
+    /**
+     * Requete qui prend la valeur d'un budget par rapport à un compte
+     * 
+     * @var null
+     * @return Illuminate\Support\Facades\DB
+     */
+
+     public function joinedBudget(){
+         return DB::table('comptes')
+                    ->select('comptes.compte','comptes.libelle','comptes.type','budgets.montant')
+                    ->join('budgets','budgets.compte_id','=','comptes.id');
+     }
 }

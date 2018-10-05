@@ -6,8 +6,11 @@ use Illuminate\Http\Request;
 use App\Models\Compte;
 use App\Models\Budget;
 use Carbon\Carbon;
-use Auth;
+use App\Models\Annee;
 use App\Models\Budgetisation;
+use App\Http\Controllers\DatesController;
+use Auth;
+use Hash;
 
 class BudgetsController extends Controller
 {
@@ -31,10 +34,11 @@ class BudgetsController extends Controller
 
     public function create(Request $request)
     {
+        $budget = null;
         $annee = Carbon::now()->addYears(1)->format('Y');
         $action = route('insert.budget');
         $comptes = Compte::all();
-        return view('budget.create',compact('comptes','action','annee'));
+        return view('budget.create',compact('comptes','action','annee','budget'));
     }
 
     /**
@@ -50,8 +54,8 @@ class BudgetsController extends Controller
         $array = [];
         $i = 0;
         //recuperation de l'annee budgetaire
-        foreach ($request->header() as $key => $val) {
-            if( $key == 'id')
+        foreach ($request->header() as $cle => $val) {
+            if( $cle == 'id')
                 $request->year = $val[0];
         }
         foreach ($data as $key => $value)
@@ -61,34 +65,39 @@ class BudgetsController extends Controller
                 //get les caracteres numeriques d'une chaine de caractere
                 $request->montant = preg_replace('~\D~', '', $value);
                 $request->compte_id = str_replace("montant","",$key);
-                //verifier si un budget existe deja pour un compte
+                //verifier si un budget existe deja pour un compte pour une annee budgetaire
                 $date = new DatesController($request->year);
-                /** 
-                * get budget_id et comparer si l'id existe dans l'Entite Budgetisation
-                * if true : Budgetisation existe
-                */
-                $budget = Budget::where('annee_id',$date->list()->id);
-                foreach ($budget as $b) {
-                    
-                }
-
-                if (!is_null($get)){
-                     //if true : update
-                    $update = $this->update(request);
-                }
-                else{
-                    //else : insert 
-                    $new = new Budget();
-                    $new->entite_id = Auth::user()->entite_id;
-                    $new->annee_id = $date->list()->id;
-                    $new->montant = $request->montant;
-                    $new->comptes($request);
-                    $new->save();
+                //creation et initialisation du budget 
+                $date->create();
+                $budget = Budget::where('annee_id',$date->list()->id)->where('compte_id',$request->compte_id)->first();
+                if( !is_null($budget) ){
+                    //update un budget dans une annee budgetaire
+                    $budget->montant = $request->montant;
+                    $budget->save();
+                }else{
+                    //insert un nouveau budget
+                    $this->add($request);
                 }
             }
         }
     }
+    /**
+     *  Ajout d'un budget
+     * 
+     * @param \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response 
+     */
 
+     public function add(Request $request){
+        $date = new DatesController($request->year);
+        $new = new Budget();
+        $new->entite_id = Auth::user()->entite_id;
+        $new->annee_id = $date->list()->id;
+        $new->compte_id = $request->compte_id;
+        $new->montant = $request->montant;
+        $new->save();
+     }
+    
     /**
      * Affichage de la formulaire de modification budget
      * 
@@ -105,23 +114,6 @@ class BudgetsController extends Controller
      }
 
 
-     /**
-      * Modifier une Instance  budget
-      * 
-      * @param \Illuminate\Http\Request $request
-      * @return \Illuminate\Http\Response
-      */
-
-      public function update(Request $request)
-      {
-          $validation = $this->validate($request,['montant' => 'required|numeric'],[
-              'required'=>'Le Champ :attribute est obligatoire',
-              'numeric' =>'Le Champ :attribute doit être numerique']);
-            $upt = Budget::findOrFail($request->id);
-            $upt->montant = $request->montant;
-            $upt->save();
-      }
-
       /**
        * Show form to Create a budget for the previous year
        * 
@@ -131,15 +123,16 @@ class BudgetsController extends Controller
 
        public function manual(Request $request)
        {
-           $validation = $this->validate($request,[
-               'year' => 'required|numeric'
-           ],[
-               'date' => 'Vous devez séléctionner une année budgetaire'
-           ]);
             $annee = $request->year;
             $action = route('insert.budget');
             $comptes = Compte::all();
-            return view('budget.create',compact('comptes','action','annee'));
+            $date = new DatesController($request->year);
+            $get_budget = Budget::where('annee_id',$date->list()->id)->get();
+            $budget = [];
+            foreach($get_budget as $key => $value){
+                $budget[$value->compte_id] = $value->montant;
+            }
+            return view('budget.create',compact('comptes','action','annee','budget'));
        }
 
        /**
@@ -152,31 +145,104 @@ class BudgetsController extends Controller
         public function selection()
         {
             $action = action('BudgetsController@manual');
+            $delete = action('BudgetsController@confirmation');
             $years = [ 
                 Carbon::now()->format('Y'),
                 Carbon::now()->subYears(1)->format('Y'),
                 Carbon::now()->subYears(2)->format('Y'),
                 Carbon::now()->subYears(3)->format('Y')  
             ];
-            return view('budget.select',compact('years','action'));
+            //listes des annees budgetaires existants
+            $annee_budgetaire = Annee::all();
+            return view('budget.select',compact('years','action','annee_budgetaire','delete'));
         }
 
-        /**
-         * Relier avec un compte
-         * 
-         * @param \Illuminate\Http\Request
-         * @return \Illuminate\Http\Response
-         */
+    /**
+     * Get un budget depuis un lien 
+     * 
+     * @param \Illuminate\Http\Request
+     * @return \Illuminate\Http\Response
+     */
+    
+     public function select_budget($annee){
+         $request = new Request();
+         $request->year = $annee;
+         return $this->manual($request);
+     }
 
-         public function comptes(Request $request){
-            try{
-                $budget = new Budgetisation();
-                $budget->budget_id = $request->budget_id;
-                $budget->compte_id = $request->compte_id;
-                $budget->save();
+     /**
+      * Confirmation de la suppression d'un budget 
+      *
+      * @param \Illuminate\Http\Request
+      * @return \Illuminate\Http\Response
+      */
+
+      public function confirmation(Request $request){
+          //verification de l'identifiant avant suppression
+          if( $this->validation($request) ){
+              // if true : supprimer tous les budgets dans la table budget
+              $this->delete($request);
+              return back()->with('success',"Le budget a été supprimé avec succès");
+          }
+          else{
+              //if false
+              return back()->with('error',"Identification erronnee");
+          }
+          
+      }
+
+      /**
+       * Verification d'un mot de passe
+       * 
+       * @param \Illuminate\Http\Request
+       * @return \Illuminate\Http\Response
+       */
+
+       public function validation(Request $request)
+       {
+            $validation = $this->validate($request,[
+                'password' => 'required'
+            ],[
+                'required' => 'Le champ :attribute est obligatoire'
+            ]);
+            //core
+            if( Hash::check($request->password, Auth::user()->password))
+                return true;
+            else
+                return false;
+       }
+
+       /**
+        * Suppression du budget
+        *
+        * @param \Illuminate\Http\Request $request
+        * @return \Illuminate\Http\Response
+        */
+
+        public function delete(Request $request){
+            //Supprimer les Budgets de cette annee
+            $tab_ids = [];
+            $lists_id = Budget::where('annee_id',$request->id)->get(['id']);
+            if( !empty($lists_id) ){
+                foreach($lists_id as $ids){
+                    $tab_ids[] = $ids->id;
+                }
+                //Supression grouper de tous les budgets
+                $budget = Budget::destroy($tab_ids);
             }
-            catch(Exception $e){
-                report($e);
-            }
-         }
+            //suppression de l'annee budgetaire 
+            $annee = Annee::findOrFail($request->id);
+            $annee->delete();
+        }
+
+    /**
+     * Registration des budgets
+     * 
+     * @param \Illuminate\Http\Request 
+     * @return \Illuminate\Http\Response
+     */
+
+     public function registration(){
+        return $this->selection();
+     }
 }
