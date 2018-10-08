@@ -41,7 +41,7 @@
         extended: function() {
             if($('#s2_val').length) {
                 $("#s2_val").select2({
-                    placeholder: "Select a State",
+                    placeholder: "Selectionner un compte",
                     allowClear: true
                 })
             }

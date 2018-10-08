@@ -247,7 +247,7 @@
         init: function() {
             if($('#s2_single').length) {
                 $("#s2_single").select2({
-                    placeholder: "Select a State",
+                    placeholder: "Selectionner un compte",
                     allowClear: true
                 });
             }

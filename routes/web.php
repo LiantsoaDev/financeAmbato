@@ -57,6 +57,8 @@ Route::prefix('private')->middleware('auth')->group(function () {
 
 	//Realisations 
 	Route::get('realisations',['as' => 'realisation.index','uses' => 'RealisationsController@index']);
+	//Realisations : get details des comptes depuis Ajax
+	Route::get('details-comptes/{str}',['as' => 'ajax.count.detail','uses' => 'RealisationsController@getCompteByAjax'])->where('str','[0-9]+');
 });
 
 

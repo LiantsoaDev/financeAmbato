@@ -19,12 +19,18 @@
             id++;
             var table = $(this).closest("table");
             var clonedRow = table.find(".inv_row").clone();
-            clonedRow.removeAttr("class")
+            clonedRow.removeAttr("class");
             clonedRow.find(".id").attr("value", id);
             clonedRow.find(".inv_clone_row").html('<i class="icon-minus inv_remove_btn"></i>');
             clonedRow.find("input").each(function() {
                 $(this).val('');
             });
+            clonedRow.find('.dpicker')
+                .removeClass('hasDatepicker')
+                .removeData('datepicker')
+                .attr('id', 'dd_date' + Math.random()) //newly added line
+                .unbind()
+                .datepicker({ dateFormat: 'dd-mm-yy' });
             table.find(".last_row").before(clonedRow);
         });
         //* remove row
@@ -44,11 +50,10 @@
             var taxTotal = 0;
             $(".invE_table tr").not('.last_row').each(function () {
                 var $unit_price = $('.jQinv_item_unit', this).val();
-                var $qty = $('.jQinv_item_qty', this).val();
-                var $tax = $('.jQinv_item_tax', this).val();
+                var $qty = 1;
                 
                 var $total = ($unit_price * 1) * ($qty * 1);
-                var $tax_amount = (($unit_price * 1) * ($qty * 1)) * ($tax/parseFloat("100"));
+                var $tax_amount = (($unit_price * 1) * ($qty * 1));
                 var $total_tax = (($unit_price * 1) * ($qty * 1)) - $tax_amount;
                 
                 

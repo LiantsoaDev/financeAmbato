@@ -186,7 +186,7 @@ class BudgetsController extends Controller
           }
           else{
               //if false
-              return back()->with('error',"Identification erronnee");
+              return back()->with('error',"Identification eronee");
           }
           
       }
