@@ -113,4 +113,9 @@ class Compte extends Model
                     ->select('comptes.compte','comptes.libelle','comptes.type','budgets.montant')
                     ->join('budgets','budgets.compte_id','=','comptes.id');
      }
+
+     public function mouvement()
+     {
+         return $this->belongsTo('App\Models\Mouvement');
+     }
 }

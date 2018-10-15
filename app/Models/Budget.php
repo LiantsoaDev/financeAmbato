@@ -29,7 +29,7 @@ class Budget extends Model
      * @var array
      */
 
-    protected $fillable = array('realisation_id','annee_id','entite_id','compte_id','libelle', 'montant');
+    protected $fillable = array('mouvement_id','annee_id','entite_id','compte_id','libelle', 'montant');
 
     /**
      * The attributes that are mass visible.
@@ -37,7 +37,7 @@ class Budget extends Model
      * @var array
      */
 
-    protected $visible = array('realisation_id','annee_id','entite_id','compte_id','libelle', 'montant');
+    protected $visible = array('mouvement_id','annee_id','entite_id','compte_id','libelle', 'montant');
 
     /**
      * A type can have many compte
@@ -72,4 +72,14 @@ class Budget extends Model
         return $this->belongsTo('App\Models\Annee','annee_id');
     }
 
+    /**
+     * A type can have many mouvement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\belongsTo
+     */
+
+     public function mouvement()
+     {
+         return $this->belongsTo('App\Models\Mouvement', 'mouvement_id');
+     }
 }

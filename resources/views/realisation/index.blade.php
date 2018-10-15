@@ -15,7 +15,8 @@
             <div class="row-fluid">
                 <div class="span12">
                         <div class="w-box w-box-green" id="invoice_add_edit">
-                                <form id="inv_form">
+                            <form id="inv_form" method="POST" action="{{$action}}">
+                                {{ csrf_field() }}
                                     <div class="w-box-header">
                                         <h4>Mouvements / Réalisations </h4>
                                         <span class="pull-right close-box inv-cancel">&times;</span>
@@ -77,7 +78,7 @@
                                                 <tbody>
                                                     <tr class="inv_row">
                                                     <td class="inv_clone_row"><i class="icon-plus inv_clone_btn"></i></td>
-                                                    <td><input type="text" class="span12 dpicker" name="invE_item[]" data-date-format="dd/mm/yyyy"/></td>
+                                                    <td><input type="text" class="span12 dpicker" name="invE_item[]" data-date-format="dd/mm/yyyy" required/></td>
                                                         <td>
                                                             <select class="span12" name="type[]">
                                                                     <option></option>
@@ -198,7 +199,8 @@
                 $( ".dpicker" ).datepicker({ dateFormat: "yy-mm-dd" });
             }); 
         </script>
-        
+        <!-- notification -->
+        @include('notify.index')
         
 
         <!-- asynchronous JavaScript and XML Data Loading -->

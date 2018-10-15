@@ -28,7 +28,7 @@ class Realisation extends Model
      * @var array
      */
 
-    protected $fillable = array('libelle', 'date', 'montant', 'budget_id');
+    protected $fillable = array('compte_id','budget_id','type','debit_id','credit_id', 'date');
 
     /**
      * The attributes that are mass visible.
@@ -36,7 +36,7 @@ class Realisation extends Model
      * @var array
      */
     
-    protected $visible = array('libelle', 'date', 'montant', 'budget_id');
+    protected $visible = array('compte_id','budget_id','type','debit_id','credit_id', 'date');
 
     
 

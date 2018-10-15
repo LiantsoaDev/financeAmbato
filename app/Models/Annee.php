@@ -35,4 +35,15 @@ class Annee extends Model
     {
     	$this->hasMany('App\Models\Budget');
     }
+
+    /**
+     * A type can have one mouvement
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+
+    public function mouvement()
+    {
+        return $this->belongsTo('App\Models\Mouvement');
+    }
 }

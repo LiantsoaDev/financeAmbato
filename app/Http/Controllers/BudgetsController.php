@@ -245,4 +245,21 @@ class BudgetsController extends Controller
      public function registration(){
         return $this->selection();
      }
+
+     /**
+      * Obtenir les informations du budget actuel 
+      *
+      * @return \Illuminate\Http\Response
+      */
+
+      public function current(){
+          $annee = new DatesController();
+          $get = Budget::where('annee_id',$annee->list()->id)->first();
+          if( !empty($get) ){
+                return $get;
+          }else{
+                return redirect()->route('realisation.index')->with('error',"Budget introuvable ! Assurez-vous que le budget existe");
+                exit();
+          }
+      }
 }
