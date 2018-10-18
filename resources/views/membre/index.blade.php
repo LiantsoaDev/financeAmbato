@@ -79,7 +79,6 @@
                                                         <div class="controls">
                                                             <select name="v_entite" id="v_entite" class="span6" onchange="showUser(this.value)">
                                                                 <option></option>
-                                                                <option value="admin">Komity Site Web</option>
                                                                 <option value="birao">Biraom-piangonana</option>
                                                                 <option value="sampana">Sampana</option>
                                                                 <option value="rantsana">Rantsana</option>

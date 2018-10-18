@@ -28,7 +28,7 @@ class Mouvement extends Model
      * @var array
      */
 
-    protected $fillable = ['compte_id','budget_id','type','debit_id','credit_id','date'];
+    protected $fillable = ['compte_id','budget_id','type','libelle','debit_id','credit_id','date'];
     
     /**
      * The attributes that are mass visible.
@@ -36,38 +36,64 @@ class Mouvement extends Model
      * @var array
      */
 
-    protected $visible = ['compte_id','budget_id','type','debit_id','credit_id','date'];
-
-    /**
-     * A Mouvement can have many compte
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-
-     public function compte()
-     {
-         return $this->hasOne('App\Models\Compte', 'compte_id');
-     }
+    protected $visible = ['compte_id','budget_id','type','libelle','debit_id','credit_id','date'];
 
      /**
-     * A Mouvement can have many budget
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+      * A Mouvement can have on debit
+      *
+      * @return \Illuminate\Database\Eloquent\Relations\HasOne
+      */
 
-     public function budget()
-     {
-         return $this->hasOne('App\Models\Budget', 'budget_id');
-     }
+      public function credit()
+      {
+          return $this->belongsTo('App\Models\Credit');
+      }
 
-    /**
-     * A Mouvement can have one annee
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
+      /**
+       * A Mouvement can have on credit
+       * 
+       * @return \Illuminate\Database\Eloquent\Relations\HasOne
+       */
 
-     public function annee()
-     {
-         return $this->hasOne('App\Models\Annee', 'annee_id');
-     }
+       public function debit()
+       {
+           return $this->belongsTo('App\Models\Debit');
+       }
+
+       /**
+        * A Mouvement can have many Compte
+        *
+        * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+        */
+
+        public function compte()
+        {
+            return $this->belongsTo('App\Models\Compte');
+        }
+
+        /**
+         * A Mouvement can have many budget
+         * 
+         * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+         */
+
+         public function budget()
+         {
+             return $this->belongsTo('App\Models\Budget');
+         }
+         
+         /**
+          * somme d'un tableau
+          *
+          * @param array $tableau
+          * @return decimal $somme
+          */
+
+          public function somme($tableau){
+              $sum = 0;
+              foreach($tableau as $tb){
+                  $sum += $tb;
+              }
+              return $sum;
+          }
 }

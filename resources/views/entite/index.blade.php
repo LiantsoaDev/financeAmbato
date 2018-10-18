@@ -56,7 +56,6 @@
                                                         <div class="controls">
                                                             <select name="s_entite" id="s_entite" class="span6">
                                                                 <option></option>
-                                                                <option value="admin">Komity Site Web</option>
                                                                 <option value="birao">Biraom-piangonana</option>
                                                                 <option value="sampana">Sampana</option>
                                                                 <option value="rantsana">Rantsana</option>

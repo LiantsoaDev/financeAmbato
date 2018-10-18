@@ -12,10 +12,10 @@
                     <form role="form" method="POST" action="{{$delete}}">
                         {{ csrf_field() }}
                             <div class="form-inline">
-                              <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Confirmer votre mot de passe : </label>
-                            <input type="hidden" name="id" value="{{$budget->id}}">
-                              <input type="password" class="form-control" id="psw" name="password" placeholder="Entrer le mot de passe">
-                              <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-off"></span> Confirmer</button>
+                                <label for="psw"><span class="glyphicon glyphicon-eye-open"></span> Confirmer votre mot de passe : </label>
+                                <input type="hidden" name="id" value="{{$budget->id}}">
+                                <input type="password" class="form-control" id="psw" name="password" placeholder="Entrer le mot de passe">
+                                <button type="submit" class="btn btn-danger"><span class="glyphicon glyphicon-off"></span> Confirmer</button>
                             </div>
                     </form>
             </div>

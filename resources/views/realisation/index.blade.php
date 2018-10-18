@@ -14,6 +14,14 @@
     <div class="container">
             <div class="row-fluid">
                 <div class="span12">
+                    @if($errors->any())
+                        @foreach($errors->all() as $error)
+                        <div class="alert alert-error">
+                            <a data-dismiss="alert" class="close">×</a>
+                            <strong>Erreur !</strong> {{$error}}.
+                        </div>
+                        @endforeach
+                    @endif
                         <div class="w-box w-box-green" id="invoice_add_edit">
                             <form id="inv_form" method="POST" action="{{$action}}">
                                 {{ csrf_field() }}
@@ -115,60 +123,8 @@
                                     </div>
                                 </form>
                             </div>
-                    <div class="w-box w-box-blue">
-                        <div class="w-box-header">
-                            <h4>Invoices Preview</h4>
-                        </div>
-                        <div class="w-box-content cnt_a invoice_preview">
-                            <div class="row-fluid">
-                                <div class="span12">
-                                    <table class="table invE_table">
-                                        <thead>
-                                            <tr>
-                                                <th>Item</th>
-                                                <th>Unit Cost</th>
-                                                <th>Qty</th>
-                                                <th>Tax</th>
-                                                <th>Total</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>Lorem ipsum <small>(Lorem ipsum dolor...)</small></td>
-                                                <td>$50.00</td>
-                                                <td>2.00</td>
-                                                <td>5%</td>
-                                                <td>$95.00</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Lorem ipsum <small>(Lorem ipsum dolor...)</small></td>
-                                                <td>$70.00</td>
-                                                <td>3.00</td>
-                                                <td>9%</td>
-                                                <td>$191.10</td>
-                                            </tr>
-                                            <tr class="last_row">
-                                                <td colspan="3">&nbsp;</td>
-                                                <td colspan="2">
-                                                    <p class="sepH_a"><span class="muted sepV_b">Subtotal</span>$310.00</p>
-                                                    <p class="sepH_a"><span class="muted sepV_b">Tax (10%)</span>$23.90</p>
-                                                    <p class="sepH_a"><span class="muted sepV_b">Discount</span>-</p>
-                                                    <p><strong><span class="sepV_b">Total</span>$286.10</strong></p>
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                    </table>	
-                                </div>
-                            </div>
-                            <div class="row-fluid">
-                                <div class="span12">
-                                    <div class="inv_notes">
-                                        <span class="label label-info">Notes</span>
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ut bibendum libero. Maecenas ultricies ligula sed urna rutrum mollis. Sed quis sem eget risus eleifend vulputate non a justo. Morbi vel mauris sem. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="w-box w-box-blue" id="table">
+                        <!-- load Data -->
                     </div>
                     
                 </div>
@@ -206,6 +162,7 @@
         <!-- asynchronous JavaScript and XML Data Loading -->
         <script>
                 function loadDataCount(str) {
+                    loadDataTable(str);
                   if (str=="") {
                     document.getElementById("txtHint").innerHTML="";
                     return;
@@ -222,6 +179,26 @@
                     }
                   }
                   xmlhttp.open("GET","{{ url('private/details-comptes/').'/' }}"+str,true);
+                  xmlhttp.send();
+                }
+
+                function loadDataTable(str) {
+                  if (str=="") {
+                    document.getElementById("table").innerHTML="";
+                    return;
+                  } 
+                  if (window.XMLHttpRequest) {
+                    // code for IE7+, Firefox, Chrome, Opera, Safari
+                    xmlhttp=new XMLHttpRequest();
+                  } else { // code for IE6, IE5
+                    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                  }
+                  xmlhttp.onreadystatechange=function() {
+                    if (this.readyState==4 && this.status==200) {
+                      document.getElementById("table").innerHTML=this.responseText;
+                    }
+                  }
+                  xmlhttp.open("GET","{{ url('private/get-compte/').'/' }}"+str,true);
                   xmlhttp.send();
                 }
         </script>

@@ -9,10 +9,10 @@
                 $.sticky("<b>Succès!</b> <br> <h5>{{Session::get('success')}}. </h5>", {autoclose : 10000, position: "top-right", type: "st-success" });
                 @endif
                 @if( Session::has('error'))
-                $.sticky("<b>Succès!</b> <br> <h5>{{Session::get('error')}}. </h5>", {autoclose : 10000, position: "top-right", type: "st-error" });
+                $.sticky("<b>Erreur!</b> <br> <h5>{{Session::get('error')}}. </h5>", {autoclose : 10000, position: "top-right", type: "st-error" });
                 @endif
                 @if( Session::has('remarque'))
-                $.sticky("<b>Succès!</b> <br> <h5>{{Session::get('remarque')}}. </h5>", {autoclose : 10000, position: "top-right", type: "st-info" });
+                $.sticky("<b>Attention!</b> <br> <h5>{{Session::get('remarque')}}. </h5>", {autoclose : 10000, position: "top-right", type: "st-info" });
                 @endif
             }
 </script>

@@ -40,25 +40,14 @@ class Debit extends Model
     protected $visible = array('montant', 'type');
 
     /**
-     * A Debit can have many debit
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * A debit belongs To Mouvement
+     * 
+     * @return true
      */
 
-    public function debit()
+    public function mouvement()
     {
-        return $this->hasMany('App\Models\Mouvement', 'mouvement_id');
-    }
-
-    /**
-     * A Debit can have many compte
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-
-    public function compte()
-    {
-        return $this->hasMany('App\Models\Compte', 'compte_id');
-    }
+        return $this->belongsTo('App\Models\Mouvement', 'mouvement_id');
+    } 
 
 }

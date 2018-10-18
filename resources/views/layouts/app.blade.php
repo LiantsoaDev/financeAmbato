@@ -106,10 +106,10 @@
                                             <a href="{{route('realisation.index')}}">Formulaire de saisie</a>
                                         </li>
                                         <li>
-                                            <a href="indexb730.html?page=charts">Charts</a>
+                                            <a href="indexb730.html?page=charts">Listes des mouvements</a>
                                         </li>
                                         <li>
-                                            <a href="indexb300.html?page=contact_list">Contact List</a>
+                                            <a href="indexb300.html?page=contact_list">Registre des réalisations</a>
                                         </li>
                                         <li>
                                             <a href="index6f93.html?page=datatables">Datatables</a>

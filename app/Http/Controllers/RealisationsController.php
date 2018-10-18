@@ -73,12 +73,11 @@ class RealisationsController extends Controller
                 $attribute->compte = $request->compte;
                 $attribute->id = $request->compte_id;
                 $compte = new ComptesController($attribute);
-                //type de retour de la derniere insertion Credit ou Debit
+                //verifie la nature de la derniere insertion si Credit ou Debit
                 $nature = $compte->nature();
-                if( is_integer($nature['id'] )){
-                    if( $nature['nature'] == 'debit' ){
-                        //insertion  d'un mouvement
-                        $this->insert($attribute,$nature);  
+                if( !empty($nature->id) ){
+                    if($this->insert($attribute,$nature)){
+                        return back()->with('success',"Le Mouvement a été enregistré avec succès");
                     }
                 }
             }
@@ -91,20 +90,91 @@ class RealisationsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-     public function insert(\stdClass $attribute, array $nature){
-        $insert = new Mouvement();
-        $insert->compte_id = $attribute->id;
-        $budget = new BudgetsController();
-        $insert->budget_id = $budget->current()->id;
-        $insert->type = $attribute->type;
-        if( !empty($nature['nature'] == 'credit') ){
-            $insert->credit_id = $nature['id'];
+     public function insert(\stdClass $attribute, \stdClass $nature){
+        try{
+            //insertion d'un nouveau mouvement
+            $insert = new Mouvement();
+            $insert->compte_id = $attribute->id;
+            $insert->libelle = $attribute->description;
+            $insert->piece = $attribute->piece;
+            $insert->cheque = $attribute->cheque;
+            $budget = new BudgetsController();
+            //verifie si budget existe
+            $exist = $budget->progress();
+            if( is_null($exist) ){
+                //si Non: initialiser un budget pour l'année en cours 
+                //et retourner l'id de celui ci
+                $budget->compte = $insert->compte_id;
+                $id_budget = $budget->initialize()->id;
+            }else{
+                //si oui retourner un l'id du budget en cours
+                $id_budget = $budget->progress()->id;
+            }
+            $insert->budget_id = $id_budget;
+            $insert->type = $attribute->type;
+            if( !empty($nature->nature == 'credit') ){
+                $insert->credit_id = $nature->id;
+            }
+            elseif( !empty($nature->nature == 'debit') ){
+                $insert->debit_id = $nature->id; 
+            }
+            $insert->date = date('Y-m-d H:i:s',strtotime($attribute->date));
+            $insert->save();
+            return true;
         }
-        elseif( !empty($nature['nature'] == 'debit') ){
-            $insert->debit_id = $nature['id'];
+        catch(Exception $e){
+            report($e);
+            return false;
         }
-        $insert->date = $attribute->date;
-        $insert->save();
-        return true;
+    }
+
+    /**
+     * suppression d'une realisation et d'un mouvement
+     * 
+     * @param integer $budget
+     * @return \Illuminate\Http\Response
+     */
+
+     public function delete($budget){
+         try{
+            //supprimer un ou plusieurs Mouvements
+            $mouvement = Mouvement::findOrFail($budget);
+            $mouvement->delete();
+            return true;
+         }catch(Exception $e){
+             report($e);
+         }
      }
+
+     /**
+      * fonction qui liste les mouvements d'un compte lors de l'année en cours
+      *
+      * @param integer $compte
+      * @return \Illuminate\Http\Response
+      */
+
+      public function get($compte){
+          $somme = [];
+          $total = 0;
+          $rapport = 0;
+          //lister les mvts d'un compte
+          $compte_id = Compte::where('compte',$compte)->first()->id;
+          $mouvement = Mouvement::where('compte_id',$compte_id)->orderBy('created_at','desc')->get();
+          foreach ($mouvement as $m) {
+            if(!empty($m->debit->montant)){
+                $somme[] = $m->debit->montant;
+                $m->debit->montant = number_format($m->debit->montant, 2, ',', ' ');
+            }
+            elseif($m->credit->montant){
+                $somme[] = $m->credit->montant;
+                $m->credit->montant = number_format($m->credit->montant, 2, ',', ' ');
+            } 
+          }
+          //somme des mouvements d'un compte
+          $mouv = new Mouvement();
+          $total = number_format($mouv->somme($somme),2,',',' ');
+          //Calcul des rapports 
+          return view('realisation.lists',compact('mouvement','total','rapport'));
+      }
+
 }

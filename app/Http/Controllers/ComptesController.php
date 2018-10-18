@@ -78,7 +78,8 @@ class ComptesController extends Controller
         $new->type = $this->attribute->type;
         $new->montant = $this->attribute->montant;
         $new->save();
-        return ['nature' => 'debit', 'id' => intval($new->id)];
+        $data = ['nature' => 'debit', 'id' => intval($new->id)];
+        return json_decode(json_encode($data),false);
      }
 
      /**
@@ -93,6 +94,7 @@ class ComptesController extends Controller
         $new->type = $this->attribute->type;
         $new->montant = $this->attribute->montant;
         $new->save();
-        return ['nature' => 'credit', 'id' => intval($new->id)];
+        $data = ['nature' => 'credit', 'id' => intval($new->id)];
+        return json_decode(json_encode($data),false);
       }
 }

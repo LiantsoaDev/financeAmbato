@@ -14,6 +14,12 @@ use Hash;
 
 class BudgetsController extends Controller
 {
+    /**
+     * propriete de la classe
+     */
+
+    public $compte = null;
+    public $annee = null;
 
     /**
     * create a new instance of class
@@ -23,7 +29,7 @@ class BudgetsController extends Controller
 
     public function __construct()
     {
-
+        //
     }
 
     /**
@@ -42,7 +48,7 @@ class BudgetsController extends Controller
     }
 
     /**
-   * Insertion d'un bugdet antérieur dans la base de donnée
+   * Insertion d'un bugdet dans la base de donnée
    *
    * @param  Illunminate\Http\Request 
    * @return Illunminate\Http\Response
@@ -66,9 +72,8 @@ class BudgetsController extends Controller
                 $request->montant = preg_replace('~\D~', '', $value);
                 $request->compte_id = str_replace("montant","",$key);
                 //verifier si un budget existe deja pour un compte pour une annee budgetaire
-                $date = new DatesController($request->year);
                 //creation et initialisation du budget 
-                $date->create();
+                $date = new DatesController($request->year);
                 $budget = Budget::where('annee_id',$date->list()->id)->where('compte_id',$request->compte_id)->first();
                 if( !is_null($budget) ){
                     //update un budget dans une annee budgetaire
@@ -115,7 +120,7 @@ class BudgetsController extends Controller
 
 
       /**
-       * Show form to Create a budget for the previous year
+       * Afficher la formulaire d'ajout manuel d'un budget pour les années précedentes
        * 
        * @param \Illuminate\Http\Request $request
        * @return \Illuminate\Http\Response
@@ -158,7 +163,7 @@ class BudgetsController extends Controller
         }
 
     /**
-     * Get un budget depuis un lien 
+     * Method : GET, appeller un budget depuis un url
      * 
      * @param \Illuminate\Http\Request
      * @return \Illuminate\Http\Response
@@ -178,7 +183,7 @@ class BudgetsController extends Controller
       */
 
       public function confirmation(Request $request){
-          //verification de l'identifiant avant suppression
+          //verification de l'identifiant de l'User avant suppression
           if( $this->validation($request) ){
               // if true : supprimer tous les budgets dans la table budget
               $this->delete($request);
@@ -192,7 +197,7 @@ class BudgetsController extends Controller
       }
 
       /**
-       * Verification d'un mot de passe
+       * Verification d'un mot de passe avant suppression
        * 
        * @param \Illuminate\Http\Request
        * @return \Illuminate\Http\Response
@@ -252,14 +257,31 @@ class BudgetsController extends Controller
       * @return \Illuminate\Http\Response
       */
 
-      public function current(){
+      public function progress(){
           $annee = new DatesController();
+          $this->annee = $annee->list()->id;
           $get = Budget::where('annee_id',$annee->list()->id)->first();
           if( !empty($get) ){
                 return $get;
           }else{
-                return redirect()->route('realisation.index')->with('error',"Budget introuvable ! Assurez-vous que le budget existe");
-                exit();
+                return null;
           }
       }
+
+      /**
+       * initialisation d'un nouveau budget
+       * 
+       * @return \Illuminate\Http\Response
+       */
+
+       public function initialize(){
+           $init = new Budget();
+           $init->annee_id = $this->annee;
+           $init->entite_id = Auth::user()->entite_id;
+           $init->compte_id = $this->compte;
+           $init->montant = '00';
+           $init->save();
+           return $init;
+       }
+
 }
