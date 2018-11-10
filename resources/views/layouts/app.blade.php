@@ -74,9 +74,6 @@
                                             <a href="{{route('create.budget')}}">Nouveau budget</a>
                                         </li>
                                         <li>
-                                            <a href="#">Editer un budget</a>
-                                        </li>
-                                        <li>
                                             <a href="{{route('budget.register')}}">Registres</a>
                                         </li>
                                         <li>
@@ -106,7 +103,7 @@
                                             <a href="{{route('realisation.index')}}">Formulaire de saisie</a>
                                         </li>
                                         <li>
-                                            <a href="indexb730.html?page=charts">Listes des mouvements</a>
+                                            <a href="{{route('mouvement.journal')}}">Journal</a>
                                         </li>
                                         <li>
                                             <a href="indexb300.html?page=contact_list">Registre des réalisations</a>
@@ -139,10 +136,10 @@
                                         </li>
                                     </ul>
                                 </li>
-                                <li><a href="javascript:void(0)">UI Elements</a>
+                                <li><a href="javascript:void(0)">Etats</a>
                                     <ul>
-                                        <li><a href="index9d8e.html?page=alerts_buttons">Alerts, Buttons</a></li>
-                                        <li><a href="index7632.html?page=grid">Grid</a></li>
+                                        <li><a href="index9d8e.html?page=alerts_buttons">Journaliers</a></li>
+                                        <li><a href="index7632.html?page=grid">Mensuels</a></li>
                                         <li><a href="index7fa9.html?page=icons">Icons</a></li>
                                         <li><a href="index8067.html?page=js_grid">JS Grid</a></li>
                                         <li>
@@ -154,20 +151,13 @@
                                         <li><a href="index589c.html?page=widgets">Widgets</a></li>
                                     </ul>
                                 </li>
-                                <li><a href="javascript:void(0)">Other pages</a>
+                                <li><a href="javascript:void(0)">Encaissement</a>
                                     <ul>
-                                        <li><a href="index72d4.html?page=ajax_content">Ajax content</a></li>
-                                        <li><a href="index2154.html?page=blank">Blank page</a></li>
-                                        <li><a href="index1b62.html?page=blog_page">Blog page</a></li>
-                                        <li><a href="index9852.html?page=blog_page_single">Blog page (single)</a></li>
-                                        <li><a href="index38c4.html?page=chat">Chat</a></li>
-                                        <li><a href="error_404.html">Error 404</a></li>
-                                        <li><a href="indexbb2d.html?page=help_faq">Help/Faq</a></li>
-                                        <li><a href="indexb59b.html?page=invoices">Invoices</a></li>
-                                        <li><a href="login.html">Login Page</a></li>
-                                        <li><a href="indexa8a8.html?page=mailbox">Mailbox</a></li>
-                                        <li><a href="index0aa3.html?page=user_profile">User profile</a></li>
-                                        <li><a href="index74a7.html?page=settings">Site Settings</a></li>
+                                            <li><a href="index72d4.html?page=ajax_content">Petite Caisse</a></li>
+                                        <li><a href="index72d4.html?page=ajax_content">Caisse</a></li>
+                                        <li><a href="index2154.html?page=blank">Banque</a></li>
+                                        <li><a href="index1b62.html?page=blog_page">Versement</a></li>
+                                        <li><a href="index9852.html?page=blog_page_single">Historique de Transaction</a></li>
                                     </ul>
                                 </li>
                                 <li><a href="javascript:void(0)">Paramêtres</a>
@@ -219,7 +209,7 @@
                         <div class="span5">
                             <nav class="nav-icons">
                                 <ul>
-                                    <li><a href="javascript:void(0)" class="ptip_s" title="Dashboard"><i class="icsw16-home"></i></a></li>
+                                    <li><a href="{{route('home')}}" class="ptip_s" title="Dashboard"><i class="icsw16-home"></i></a></li>
                                     <li class="dropdown">
                                         <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown"><i class="icsw16-create-write"></i> <span class="caret"></span></a>
                                         <ul role="menu" class="dropdown-menu">
@@ -266,15 +256,7 @@
             </header>
 
         <!-- breadcrumbs -->
-            <div class="container">
-                <ul id="breadcrumbs">
-                    <li><a href="javascript:void(0)"><i class="icon-home"></i></a></li>
-                    <li><a href="javascript:void(0)">Content</a></li>
-                    <li><a href="javascript:void(0)">Article: Lorem ipsum dolor...</a></li>
-                    <li><a href="javascript:void(0)">Comments</a></li>
-                    <li><span>Lorem ipsum dolor sit amet...</span></li>
-                </ul>
-            </div>
+            @yield('breadcrumb')
 
             <!-- main content -->
             @yield('content')

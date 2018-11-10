@@ -3,11 +3,13 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Compte;
 use App\Http\Controllers\ComptesController;
-use App\Models\Mouvement;
-use Auth;
 use App\Http\Controllers\BudgetsController;
+use App\Models\Compte;
+use App\Models\Mouvement;
+use App\Models\Realisation;
+use Auth;
+
 
 class RealisationsController extends Controller
 {
@@ -120,6 +122,9 @@ class RealisationsController extends Controller
             }
             $insert->date = date('Y-m-d H:i:s',strtotime($attribute->date));
             $insert->save();
+            $insert->total = $attribute->montant;
+            //si le mouvement a été inséré alors inserer la realisation
+            $this->realisation($insert);
             return true;
         }
         catch(Exception $e){
@@ -147,20 +152,20 @@ class RealisationsController extends Controller
      }
 
      /**
-      * fonction qui liste les mouvements d'un compte lors de l'année en cours
+      * listes des réalisations d'un compte
       *
       * @param integer $compte
       * @return \Illuminate\Http\Response
       */
 
-      public function get($compte){
-          $somme = [];
-          $total = 0;
-          $rapport = 0;
-          //lister les mvts d'un compte
-          $compte_id = Compte::where('compte',$compte)->first()->id;
-          $mouvement = Mouvement::where('compte_id',$compte_id)->orderBy('created_at','desc')->get();
-          foreach ($mouvement as $m) {
+      public function allrealisations($compte){
+            $somme = [];
+            $total = 0;
+            $rapport = 0;
+            //lister les mvts d'un compte
+            $compte_id = Compte::where('compte',$compte)->first()->id;
+            $mouvement = Mouvement::where('compte_id',$compte_id)->orderBy('created_at','desc')->get();
+            foreach ($mouvement as $m) {
             if(!empty($m->debit->montant)){
                 $somme[] = $m->debit->montant;
                 $m->debit->montant = number_format($m->debit->montant, 2, ',', ' ');
@@ -169,12 +174,83 @@ class RealisationsController extends Controller
                 $somme[] = $m->credit->montant;
                 $m->credit->montant = number_format($m->credit->montant, 2, ',', ' ');
             } 
-          }
-          //somme des mouvements d'un compte
-          $mouv = new Mouvement();
-          $total = number_format($mouv->somme($somme),2,',',' ');
-          //Calcul des rapports 
-          return view('realisation.lists',compact('mouvement','total','rapport'));
+            }
+            //somme des mouvements d'un compte
+            $mouv = new Mouvement();
+            $total = number_format($mouv->somme($somme),2,',',' ');
+
+            return ['mouvement' => $mouvement, 'total' => $total, 'rapport' => $rapport];
       }
 
+     /**
+      * fonction qui liste les mouvements d'un compte lors de l'année en cours
+      *
+      * @param integer $compte
+      * @return \Illuminate\Http\Response
+      */
+
+      public function get($compte){
+            //get all realisations du compte 
+            $values = $this->allrealisations($compte);
+            $mouvement = $values['mouvement'];
+            $total = $values['total'];
+            $rapport = $values['rapport'];
+            
+            return view('realisation.lists',compact('mouvement','total','rapport'));
+      }
+
+
+       public function render(){
+
+       }
+
+      /**
+       * verification d'une realisation
+       * 
+       * @return boolean 
+       */
+
+       public function verification(Mouvement $m){
+            $result = Realisation::where('compte_id',$m->compte_id)->where('budget_id',$m->budget_id)->first();
+            if( count($result) > 0 ){
+                //exists
+                return $result;
+            }else{
+                //not exists
+                return false;
+            }
+       }
+
+      /**
+       * Creation d'une realisation à partir d'un Mouvement
+       * 
+       * @param \Illuminate\Http\Request
+       * @return \Illuminate\Http\Response
+       */
+
+       public function realisation(Mouvement $mouv){
+           try{
+               $realisation_compare = $this->verification($mouv);
+               if( $realisation_compare == false ){
+                    $realisation = new Realisation();
+                    $realisation->compte_id = $mouv->compte_id;
+                    $realisation->budget_id = $mouv->budget_id;
+                    //get total
+                    $realisation->total =  $mouv->total;
+                    $realisation->date = date('Y-m-d H:i:s',strtotime($mouv->date));
+                    $realisation->save();
+                    return true;
+               }else{
+                    $realisation_compare->total += $mouv->total;
+                    $realisation_compare->date = date('Y-m-d H:i:s',strtotime($mouv->date));
+                    $realisation_compare->save();
+                    return true;
+               }
+                
+           }catch(Exception $e){
+               report($e);
+               return false;
+           }
+       }
 }
+

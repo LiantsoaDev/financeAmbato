@@ -66,6 +66,10 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	//Mouvements 
 	//Ajout d'un nouveau mouvement/realisation
 	Route::post('nouveau-mouvement',['as' => 'mouvement.add','uses' => 'RealisationsController@add']);
+	//Afficher du Journal
+	Route::get('journal',['as'=>'mouvement.journal','uses'=>'MouvementsController@journal']);
+	//Afficher Etat
+	Route::get('etat/{id}',['as'=>'mouvement.etat','uses'=>'MouvementsController@etat'])->where('id','[0-9]+');
 });
 
 

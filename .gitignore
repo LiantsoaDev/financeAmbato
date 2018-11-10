@@ -7,4 +7,4 @@ Homestead.json
 Homestead.yaml
 .env
 /exportable
-bdd_finance.sql
+exportable.sql

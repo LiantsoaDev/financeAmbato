@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Realisations;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -28,7 +28,7 @@ class Realisation extends Model
      * @var array
      */
 
-    protected $fillable = array('compte_id','budget_id','type','debit_id','credit_id', 'date');
+    protected $fillable = array('compte_id','budget_id','total','date');
 
     /**
      * The attributes that are mass visible.
@@ -38,6 +38,30 @@ class Realisation extends Model
     
     protected $visible = array('compte_id','budget_id','type','debit_id','credit_id', 'date');
 
-    
+    /**
+     * fonction qui recuperer la totale de la realisation 
+     * 
+     * @var null
+     * @return \Illuminate\Http\Response
+     */
+
+     public function totale(Mouvement $mouv){
+         $get = self::where('compte_id',$mouv->compte_id)->where('budget_id',$mouv->budget_id)->first();
+         if( !is_null($get) )
+            return $get->total;
+        else
+            return $get = 0;
+     }
+
+     /**
+      * une realisation appartient à un compte
+      *
+      * @return Illuminate\Database\Eloquent\belongsTo::class
+      */
+
+     public function compte()
+     {
+         return $this->belongsTo('App\Models\Compte');
+     }
 
 }

@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="{{asset('public/js/lib/bootstrap-datepicker/css/datepicker.css')}}">
 @endsection
     
+@section('breadcrumb')
+<div class="container">
+    <ul id="breadcrumbs">
+        <li><a href="{{route('home')}}"><i class="icon-home"></i></a></li>
+        <li><a href="javascript:void(0)">Réalisations</a></li>
+        <li><a href="{{URL::current()}}">Formulaire de saise</a></li>
+    </ul>
+</div>
+@endsection
+
 
 @section('content')
     
@@ -71,7 +81,7 @@
                                                 </div>
                                         </div>    
                                         <div class="row-fluid sepH_c">
-                                            <table class="table invE_table">
+                                            <table class="table table-responsive invE_table">
                                                 <thead>
                                                     <tr>
                                                         <th></th>
