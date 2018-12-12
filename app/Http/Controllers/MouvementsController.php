@@ -50,4 +50,15 @@ class MouvementsController extends Controller
             $account = Compte::where('compte',$compte)->first();
             return view('journal.etat',['mouvements' => $allrealisations['mouvement'], 'total' => $allrealisations['total'], 'rapport' => $allrealisations['rapport'], 'compte' => $account ]);
         }
+
+        /**
+         * Modifier un mouvement d'Un compte
+         * 
+         * @param \Illuminate\Http\Request
+         * @return \Illuminate\Http\Response
+         */
+
+        public function update(Request $request){
+            return view('journal.update');
+        } 
 }

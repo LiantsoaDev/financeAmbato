@@ -103,8 +103,8 @@
          $('#sex').editable({
             prepend: "not selected",
             source: [
-                {value: 1, text: 'Male'},
-                {value: 2, text: 'Female'}
+                {value: 1, text: 'Caisse'},
+                {value: 2, text: 'Banque'}
             ],
             display: function(value, sourceData) {
                 var colors = {"": "gray", 1: "green", 2: "blue"},

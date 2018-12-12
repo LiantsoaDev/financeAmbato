@@ -30,7 +30,7 @@
     <div class="container">
         <div class="row-fluid">
             <div class="span12">
-                    <div class="w-box w-box-blue">
+                    <div class="w-box w-box-blue" id="imprime_moi">
                             <div class="w-box-header">
                                 <h4>Invoices Preview</h4>
                             </div>
@@ -93,7 +93,7 @@
                                                     <td>{{$m->libelle}}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                                <a href="#" class="btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>
+                                                                <a href="{{route('mouvement.update',$m->id)}}" class="btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>
                                                                 <a href="#" class="btn btn-mini" title="Delete"><i class="icon-trash"></i></a>
                                                         </div>
                                                     </td>

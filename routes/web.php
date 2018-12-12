@@ -70,6 +70,8 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	Route::get('journal',['as'=>'mouvement.journal','uses'=>'MouvementsController@journal']);
 	//Afficher Etat
 	Route::get('etat/{id}',['as'=>'mouvement.etat','uses'=>'MouvementsController@etat'])->where('id','[0-9]+');
+	//Modifier un Mouvement
+	Route::get('mouvement/modification/{id}',['as'=>'mouvement.update','uses'=>'MouvementsController@update'])->where('id','[0-9]+');
 });
 
 

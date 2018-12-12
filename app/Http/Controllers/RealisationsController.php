@@ -8,6 +8,7 @@ use App\Http\Controllers\BudgetsController;
 use App\Models\Compte;
 use App\Models\Mouvement;
 use App\Models\Realisation;
+use Carbon\Carbon;
 use Auth;
 
 
@@ -120,7 +121,10 @@ class RealisationsController extends Controller
             elseif( !empty($nature->nature == 'debit') ){
                 $insert->debit_id = $nature->id; 
             }
-            $insert->date = date('Y-m-d H:i:s',strtotime($attribute->date));
+            
+            $date = \DateTime::createFromFormat('d/m/Y', $attribute->date);
+            $insert->date = $date->format('Y-m-d');
+
             $insert->save();
             $insert->total = $attribute->montant;
             //si le mouvement a été inséré alors inserer la realisation

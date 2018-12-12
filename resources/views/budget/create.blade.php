@@ -135,7 +135,7 @@
 					                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                                     'id' : {{$annee}}
 					       },
-					        data: data,
+					        data: { data , _token: '{{csrf_token()}}' }
 					        type: 'POST',
 					        success: function(data){
 					            $.sticky("<b>Succès!</b> <br> <h5>Les Entrées ont été ajoutés avec succès </h5>", {autoclose : 10000, position: "top-right", type: "st-success" });
