@@ -71,7 +71,19 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	//Afficher Etat
 	Route::get('etat/{id}',['as'=>'mouvement.etat','uses'=>'MouvementsController@etat'])->where('id','[0-9]+');
 	//Modifier un Mouvement
-	Route::get('mouvement/modification/{id}',['as'=>'mouvement.update','uses'=>'MouvementsController@update'])->where('id','[0-9]+');
+	Route::get('mouvement/modification/{id}/{compte}',['as'=>'mouvement.update','uses'=>'MouvementsController@update'])->where(['id','[0-9]+'],['compte','[0-9]+']);
+	//exportation PDF
+	Route::get('telecharger-pdf/{id}',['as'=>'download.pdf','uses'=>'MouvementsController@export_pdf'])->where('id','[0-9]+');
+	//Action modification Mouvement
+	Route::post('update-mouvement',['as'=>'mouvement.action.update','uses'=>'MouvementsController@edit']);
+	//Envoie email avec piece jointe
+	Route::post('send-email',['as'=>'send.email','uses'=>'MouvementsController@attachement']);
+
+	//Route test
+	Route::get('test-email', function () {
+		return view('pdf.message');
+	});
+
 });
 
 

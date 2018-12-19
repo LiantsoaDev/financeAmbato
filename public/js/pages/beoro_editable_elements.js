@@ -93,6 +93,30 @@
             name: 'username',
             title: 'Enter username'
         });
+
+        $('#piece').editable({
+            url: '/post',
+            type: 'text',
+            pk: 1,
+            name: 'piece',
+            title: 'Enter piece'
+        });
+
+        $('#cheque').editable({
+            url: '/post',
+            type: 'text',
+            pk: 1,
+            name: 'cheque',
+            title: 'Enter cheque'
+        });
+
+        $('#montant').editable({
+            url: '/post',
+            type: 'text',
+            pk: 1,
+            name: 'montant',
+            title: 'Enter montant'
+        });
          
         $('#firstname').editable({
             validate: function(value) {
@@ -101,7 +125,7 @@
         });
          
          $('#sex').editable({
-            prepend: "not selected",
+            prepend: "selection",
             source: [
                 {value: 1, text: 'Caisse'},
                 {value: 2, text: 'Banque'}

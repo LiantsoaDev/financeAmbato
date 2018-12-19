@@ -256,5 +256,30 @@ class RealisationsController extends Controller
                return false;
            }
        }
+
+       /**
+        * actualisation de la realisation
+        *
+        * @param \Illuminate\Http\Request
+        * @return \Illuminate\Http\Response
+        */
+
+        public function actualisation(Request $request,$compte_id,$budget_id){
+            try{
+                //get compte id 
+                $compte = Compte::find($compte_id)->compte;
+
+                $real = Realisation::where('compte_id',$compte_id)->where('budget_id',$budget_id)->first();
+                $allreals = $this->allrealisations($compte);
+
+                $real->total = floatval(str_replace(' ','',$allreals['total']));
+                $real->date = Carbon::parse($request->date)->format('Y-m-d');
+                $real->save();
+                return true;
+            }catch(Exception $e){
+                report($e);
+                return false;
+            }
+        }
 }
 

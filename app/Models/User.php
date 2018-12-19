@@ -104,7 +104,7 @@ class User extends Authenticatable
 
      public function entite()
      {
-        return $this->hasOne('App\Models\Entite','entite_id');
+        return $this->belongsTo('App\Models\Entite','entite_id');
      }
     
 }
