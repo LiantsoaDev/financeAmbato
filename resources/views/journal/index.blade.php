@@ -47,7 +47,10 @@
                         <tbody>
                             @foreach($listes as $key => $list)
                             <tr>
-                                <td>{{$key}}</td><td>{{$list->compte->compte}}</td><td>{{ucfirst($list->compte->libelle)}}</td><td>{{ number_format($list->total, 2, ',', ' ') }} Ar</td>
+                                <td>{{$key}}</td>
+                                <td>{{$list->compte->compte}}</td>
+                                <td>{{ucfirst($list->compte->libelle)}}</td>
+                                <td>{{ number_format($list->total, 2, ',', ' ') }} Ar</td>
                                 <td>
                                     <div class="btn-group">
                                             <a href="{{route('mouvement.etat',$list->compte->compte)}}" class="btn btn-default" title="Mouvement du compte"><i class="icon-folder-open"></i> Etats</a>

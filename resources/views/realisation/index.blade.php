@@ -33,7 +33,7 @@
                         @endforeach
                     @endif
                         <div class="w-box w-box-green" id="invoice_add_edit">
-                            <form id="inv_form" method="POST" action="{{$action}}">
+                            <form id="inv_form" method="POST">
                                 {{ csrf_field() }}
                                     <div class="w-box-header">
                                         <h4>Mouvements / Réalisations </h4>
@@ -58,7 +58,9 @@
                                                             <option value=""></option>
                                                         <optgroup label="Listes Numero et libelle de compte">
                                                             @foreach ($allcount as $count)
-                                                                <option value="{{$count->compte}}">{{$count->compte}} - {{$count->libelle}}</option>
+                                                                @if( strlen($count->compte) >= 4 )
+                                                                    <option value="{{$count->compte}}">{{$count->compte}} - {{$count->libelle}}</option>
+                                                                @endif
                                                             @endforeach
                                                         </optgroup>
                                                         </select><br/>
@@ -96,7 +98,7 @@
                                                 <tbody>
                                                     <tr class="inv_row">
                                                     <td class="inv_clone_row"><i class="icon-plus inv_clone_btn"></i></td>
-                                                    <td><input type="text" class="span12 dpicker" name="invE_item[]" data-date-format="dd/mm/yyyy" required/></td>
+                                                    <td><input type="text" class="span12 dpicker" name="invE_item[]" data-date-format="dd/mm/yyyy" autocomplete="off" required/></td>
                                                         <td>
                                                             <select class="span12" name="type[]">
                                                                     <option></option>
@@ -127,7 +129,7 @@
                                     </div>
                                     <div class="w-box-footer">
                                         <div class="f-center">
-                                            <button class="btn btn-beoro-3">Enregistrer</button>
+                                            <button class="btn btn-beoro-3" type="submit" id="click-form" form="inv_form">Enregistrer</button>
                                             <button class="btn btn-default">Retour</button>
                                         </div>
                                     </div>
@@ -212,5 +214,24 @@
                   xmlhttp.send();
                 }
         </script>
+        <script type="text/javascript">
+            jQuery(document).on('click', '#click-form', function(e) { 
+                e.preventDefault();
+                var data = $('input,select,textarea').serialize();
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                jQuery.ajax({
+                url: "{{ $action }}",
+                method: 'post',
+                data: data,
+                success: function(data){
+                    $.sticky("<b>Succès!</b> <br> <h5>Les Entrées ont été modifiées avec succès </h5>", {autoclose : 10000, position: "top-right", type: "st-success" });
+                    $('#inv_form')[0].reset();
+                }});
+            });
+    </script>
 
 @endsection

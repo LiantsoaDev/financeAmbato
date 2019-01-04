@@ -58,12 +58,16 @@ class RealisationsController extends Controller
         */
 
         public function add(Request $request){
+            
             $validation = $this->validate($request,[
-                'compte_id' => 'required|numeric'
+                'compte_id' => 'required|numeric',
+                'invE_unit_cost.*' => 'required'
             ],[
-                'required' => 'Vous devez selectionner un compte avant d\'enregistrer'
+                'compte_id.required' => 'Vous devez selectionner un compte avant d\'enregistrer',
+                'invE_unit_cost.required' => 'Vous devez inserer un montant avant d\'enregistrer',
             ]);
             //connaitre si le compte est debiteur ou crediteur
+            
             for($i=0; $i<count($request->invE_item); $i++){
                 //declaration d'une object vide
                 $attribute = new \stdClass();
@@ -80,7 +84,7 @@ class RealisationsController extends Controller
                 $nature = $compte->nature();
                 if( !empty($nature->id) ){
                     if($this->insert($attribute,$nature)){
-                        return back()->with('success',"Le Mouvement a été enregistré avec succès");
+                        echo "Le Mouvement a été inseré";
                     }
                 }
             }

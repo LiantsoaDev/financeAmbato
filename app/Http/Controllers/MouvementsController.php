@@ -27,7 +27,7 @@ class MouvementsController extends Controller
       */
 
       public function __construct(){
-          //
+          //dd( strlen(611) );
       }
 
       /**
@@ -40,6 +40,11 @@ class MouvementsController extends Controller
        public function journal(){
            $current = Carbon::now()->format('Y');
            $listes = Realisation::whereYear('date',$current)->get();
+           foreach($listes as $l){
+                while (strpos( substr($l->compte->compte,0,3) , $l->compte->compte )) {
+                    # code...
+                }
+           }
            return view('journal.index',compact('listes'));
        }
 
