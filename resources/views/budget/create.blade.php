@@ -50,7 +50,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                <form action="{{route('insert.budget')}}" method="POST">	
+                                <form id="form-validate" action="{{route('insert.budget')}}" method="POST">	
                                 <input id="year" type="hidden" name="year" value="{{$annee}}">
                                 @foreach($comptes as $key => $cpts)
                                     <tr>
@@ -81,7 +81,7 @@
                                 </table>
                                 <div class="w-box-footer">
                                     <div class="f-center">
-                                        <button type="submit" class="btn btn-beoro-3" id="validate">Enregistrer</button>
+                                        <button type="submit" class="btn btn-beoro-3" id="validate" role="form-validate">Enregistrer</button>
                                         <a href="{{route('budget.selection')}}" type="reset" class="btn btn-default">Retour</a>
                                     </div>
                                 </div>
@@ -135,7 +135,7 @@
 					                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                                     'id' : {{$annee}}
 					       },
-					        data: { data , _token: '{{csrf_token()}}' }
+					        data: data ,
 					        type: 'POST',
 					        success: function(data){
 					            $.sticky("<b>Succès!</b> <br> <h5>Les Entrées ont été ajoutés avec succès </h5>", {autoclose : 10000, position: "top-right", type: "st-success" });

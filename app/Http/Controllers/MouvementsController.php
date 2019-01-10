@@ -40,12 +40,22 @@ class MouvementsController extends Controller
        public function journal(){
            $current = Carbon::now()->format('Y');
            $listes = Realisation::whereYear('date',$current)->get();
+           $tab_chaines = [];
+           $chaine = $totaux = '';
+
            foreach($listes as $l){
-                while (strpos( substr($l->compte->compte,0,3) , $l->compte->compte )) {
-                    # code...
+                if(preg_match( '/'.substr( $l->compte->compte,0,3).'/i', $l->compte->compte ) ){
+                    $details = Compte::where('compte',substr( $l->compte->compte,0,3))->first();
+
+                    //calcul des totaux d'un compte mêre
+                    $somme[ substr( $l->compte->compte,0,3) ][] = $l->total;
+                    $totaux = array_sum($somme[ substr( $l->compte->compte,0,3) ]);
+
+                    $mores = ['libelle' => $details->libelle, 'montant'=>number_format($totaux, 2, ',', ' ')];
+                    $tab_chaines[ substr($l->compte->compte,0,3) ] = json_decode(json_encode($mores),false);
                 }
            }
-           return view('journal.index',compact('listes'));
+           return view('journal.index',compact('tab_chaines'));
        }
 
        /**
@@ -61,17 +71,31 @@ class MouvementsController extends Controller
             $account = Compte::where('compte',$compte)->first();
             return $allrealisations;
         }
-       
-       /**
-        * fonction qui montre les etats d'un compte dans une Page
-        * 
-        * @param \Illuminate\Http\Request integer $compte
-        * @return \Illuminate\Http\Response
-        */
 
-        public function etat($compte){
-            $allrealisations = $this->getEtat($compte);
-            $account = Compte::where('compte',$compte)->first();
+        /**
+         * Fonction Principale pour montrer les etats d'un compte Mere
+         * 
+         * @param \Illuminate\Http\Request
+         * @return \Illuminate\Http\Response
+         */
+
+         public function CompteMereEtat($compte){
+            //get les comptes enfants du variable $compte séléctionnées
+            $all_ids = [];
+            $childs_id = Compte::where('compte','like',$compte.'%')->get(['id']);
+            foreach($childs_id as $ids){
+                $all_ids[] = $ids->id;
+            }
+            $current = Carbon::now()->format('Y');
+
+            //get les realisations des comptes enfants du variable $compte
+            $allrealisations = [];
+            $getrealisations = Realisation::whereIn('compte_id',$all_ids)->whereYear('date',$current)->get();
+            foreach($getrealisations as $gets){
+               $totals[] = $gets->total;
+               $allrealisations['total'] = array_sum($totals);
+            }
+            $allrealisations['mouvement'] = $getrealisations;
 
             //get listes des users 'Birao'
             $users = User::where('role',Auth::user()->role)->get(['name']);
@@ -82,9 +106,26 @@ class MouvementsController extends Controller
                     $tab_chaines[] = '"'.$u->name.'"';
                 }
                 $listes_chaines = implode(',',$tab_chaines);
-            }
-            
-            return view('journal.etat',['mouvements' => $allrealisations['mouvement'], 'total' => $allrealisations['total'], 'rapport' => $allrealisations['rapport'], 'compte' => $account, 'listes_chaines'=>$listes_chaines ]);
+            } 
+            return ['mouvement' => $allrealisations['mouvement'], 'total' => $allrealisations['total'], 'listes_chaines'=>$listes_chaines ];
+         }
+       
+       /**
+        * fonction qui montre les etats d'un compte dans une Pager
+        * 
+        * @param \Illuminate\Http\Request integer $compte
+        * @return \Illuminate\Http\Response
+        */
+
+        public function etat($compte){
+            $account = Compte::where('compte',$compte)->first();
+            $allrealisations = $this->CompteMereEtat($compte);
+            return view('journal.etat',[
+                    'mouvements' => $allrealisations['mouvement'], 
+                    'total' => $allrealisations['total'], 
+                    'compte' => $account, 
+                    'listes_chaines'=>$allrealisations['listes_chaines'] 
+                ]);
         }
 
         /**
@@ -95,11 +136,11 @@ class MouvementsController extends Controller
          */
 
          public function export_pdf($compte){
-            $allrealisations = $this->getEtat($compte);
             $account = Compte::where('compte',$compte)->first();
+            $allrealisations = $this->CompteMereEtat($compte);
 
              //export view PDF
-            $pdf = PDF::loadView('pdf.etat', ['mouvements' => $allrealisations['mouvement'], 'total' => $allrealisations['total'], 'rapport' => $allrealisations['rapport'], 'compte' => $account ] );
+            $pdf = PDF::loadView('pdf.etat', ['mouvements' => $allrealisations['mouvement'], 'total' => $allrealisations['total'], 'compte' => $account ] );
             return $pdf->download('Etat-'.date('d_m_Y').'-compte-'.$account->compte.'.pdf');
             // return view('pdf.etat', ['mouvements' => $allrealisations['mouvement'], 'total' => $allrealisations['total'], 'rapport' => $allrealisations['rapport'], 'compte' => $account ] );
          }
@@ -152,6 +193,24 @@ class MouvementsController extends Controller
          }
 
          /**
+          * details du Mouvement des comptes enfants
+          *
+          * @param \Illuminate\Http\Request
+          * @return \Illuminate\Http\Response
+          */
+
+          public function ajax_detail_compteChild($compte){
+                if( strlen($compte) >= 4 ){
+                    $realisation = new RealisationsController();
+                    $values = $realisation->allrealisations($compte);
+                    $mouvement = $values['mouvement'];
+                    $total = $values['total'];
+                    $rapport = $values['rapport'];
+                    return view('journal.detail-ajax',compact('mouvement','total','rapport'));
+                }
+          }
+
+         /**
           * Attachement : envoyer un pdf via email
           *
           * @return \Illuminate\Http\Response
@@ -173,7 +232,7 @@ class MouvementsController extends Controller
                 $email_destinataire = User::where('name',$request->destinataire)->first()->email;
             }
 
-            $values = $this->getEtat($request->compte);
+            $values = $this->CompteMereEtat($request->compte);
             $data = [
                 'mouvements' => $values['mouvement'],
                 'total' => $values['total'],

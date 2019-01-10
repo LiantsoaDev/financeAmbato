@@ -66,7 +66,7 @@ class BudgetsController extends Controller
         }
         foreach ($data as $key => $value)
         {
-            if( !empty($value) )
+            if( !empty($key) )
             {
                 //get les caracteres numeriques d'une chaine de caractere
                 $request->montant = preg_replace('~\D~', '', $value);
@@ -81,7 +81,9 @@ class BudgetsController extends Controller
                     $budget->save();
                 }else{
                     //insert un nouveau budget
-                    $this->add($request);
+                    if(!empty($request->montant)){
+                       $this->add($request);
+                    }
                 }
             }
         }
@@ -94,13 +96,13 @@ class BudgetsController extends Controller
      */
 
      public function add(Request $request){
-        $date = new DatesController($request->year);
-        $new = new Budget();
-        $new->entite_id = Auth::user()->entite_id;
-        $new->annee_id = $date->list()->id;
-        $new->compte_id = $request->compte_id;
-        $new->montant = $request->montant;
-        $new->save();
+            $date = new DatesController($request->year);
+            $new = new Budget();
+            $new->entite_id = Auth::user()->entite_id;
+            $new->annee_id = $date->list()->id;
+            $new->compte_id = $request->compte_id;
+            $new->montant = $request->montant;
+            $new->save();
      }
     
     /**

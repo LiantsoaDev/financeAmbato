@@ -4,8 +4,6 @@
             <h4>Invoices Preview</h4>
         </div>
         <div class="w-box-content cnt_a invoice_preview">
-            <div class="row-fluid">
-                <div class="span12">
                     <table class="table invE_table">
                         <thead>
                             <tr>
@@ -39,7 +37,6 @@
                             </tr>
                         </tbody>
                     </table>	
-                </div>
             </div>
             <div class="row-fluid">
                 <div class="span12">
@@ -49,7 +46,6 @@
                     </div>
                 </div>
             </div>
-        </div>
     </div>
 @else
 <div class="alert alert-error">

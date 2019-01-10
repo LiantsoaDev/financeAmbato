@@ -69,51 +69,43 @@
 		<table id="items">
 		
 		  <tr>
-		      <th>Description</th>
+			  <th>Numero</th>
+			  <th>libelle de compte</th>
 		      <th>Date</th>
-		      <th>Type</th>
-		      <th>N° Pièce</th>
-			  <th>N° Chèque</th>
 			  <th>Montant</th>
 		  </tr>
 		  @foreach($mouvements as $m)
 		  <tr class="item-row">
-		      <td class="description">{{$m->libelle}}</td>
+			  <td>{{$m->compte->compte}}</td>
+			  <td class="description">{{$m->compte->libelle}}</td>
 		      <td>{{ date('m/d/Y',strtotime($m->date)) }}</td>
-			 @if($m->type=='B') 
-			  	<td>Banque</td>
-			@elseif($m->type=='C')
-				<td>Caisse</td>
-			@endif
-			  <td>{{ (!empty($m->piece)?$m->piece : '-') }}</td>
-			  <td>{{ (!empty($m->cheque)?$m->cheque : '-') }}</td>
-		      <td lass="description">{{ (!empty($m->debit->montant)?$m->debit->montant : $m->credit->montant) }} Ar</td>
+		      <td lass="description">{{ (!empty($m->total)? number_format($m->total, 2, ',', ' ') : '-') }} Ar</td>
 		  </tr>
 		  @endforeach
 		<tr id="hiderow">
-				<td colspan="6"><h3>Montant TOTAL</h3></td>
+				<td colspan="4"><h3>Montant TOTAL</h3></td>
 			  </tr>
 		  
 		  <tr>
-		      <td colspan="3" class="blank"> </td>
-		      <td colspan="2" class="total-line">Sous total en MGA</td>
-		      <td class="total-value"><div id="subtotal">{{$total}}</div></td>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="1" class="total-line">Sous total en MGA</td>
+		      <td class="total-value"><div id="subtotal">{{ number_format($total, 2, ',', ' ') }}</div></td>
 		  </tr>
 		  <tr>
 
-		      <td colspan="3" class="blank"> </td>
-		      <td colspan="2" class="total-line">Total en MGA</td>
-		      <td class="total-value"><div id="total">{{$total}}</div></td>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="1" class="total-line">Total en MGA</td>
+		      <td class="total-value"><div id="total">{{ number_format($total, 2, ',', ' ') }}</div></td>
 		  </tr>
 		  <tr>
-		      <td colspan="3" class="blank"> </td>
-		      <td colspan="2" class="total-line">Amount Paid en MGA</td>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="1" class="total-line">Amount Paid en MGA</td>
 
 		      <td class="total-value"><textarea id="paid">0.00</textarea></td>
 		  </tr>
 		  <tr>
-		      <td colspan="3" class="blank"> </td>
-		      <td colspan="2" class="total-line balance">Balance Due MGA</td>
+		      <td colspan="2" class="blank"> </td>
+		      <td colspan="1" class="total-line balance">Balance Due MGA</td>
 		      <td class="total-value balance"><div class="due">0.00</div></td>
 		  </tr>
 		

@@ -45,15 +45,15 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($listes as $key => $list)
+                            @foreach($tab_chaines as $key => $list)
                             <tr>
+                                <td>#</td>
                                 <td>{{$key}}</td>
-                                <td>{{$list->compte->compte}}</td>
-                                <td>{{ucfirst($list->compte->libelle)}}</td>
-                                <td>{{ number_format($list->total, 2, ',', ' ') }} Ar</td>
+                                <td>{{ ucfirst($list->libelle) }}</td>
+                                <td>{{ $list->montant }} Ar</td>
                                 <td>
                                     <div class="btn-group">
-                                            <a href="{{route('mouvement.etat',$list->compte->compte)}}" class="btn btn-default" title="Mouvement du compte"><i class="icon-folder-open"></i> Etats</a>
+                                            <a href="{{route('mouvement.etat',$key)}}" class="btn btn-default" title="Mouvement du compte"><i class="icon-folder-open"></i> Etats</a>
                                     </div>
                                 </td>
                             </tr>

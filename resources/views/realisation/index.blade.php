@@ -56,13 +56,12 @@
                                                 <div class="span6">
                                                         <select id="s2_single" class="span12" onchange="loadDataCount(this.value)">
                                                             <option value=""></option>
-                                                        <optgroup label="Listes Numero et libelle de compte">
                                                             @foreach ($allcount as $count)
                                                                 @if( strlen($count->compte) >= 4 )
                                                                     <option value="{{$count->compte}}">{{$count->compte}} - {{$count->libelle}}</option>
                                                                 @endif
                                                             @endforeach
-                                                        </optgroup>
+                                                            </optgroup>
                                                         </select><br/>
                                                     </div>
                                         </div>

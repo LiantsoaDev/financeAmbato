@@ -15,14 +15,14 @@
                     <input type="hidden" name="compte" value="{{$compte->compte}}">
                     <div class="form-group">
                             <label for="usrname"><span class="glyphicon glyphicon-user"></span> Destinataire</label>
-                            <input type="text" id="s2_destination" class="span10" name="destinataire" value="">
+                            <input type="text" id="s2_destination" class="span12" name="destinataire" value="">
                             <span class="help-block">Tapper Nom d'utilisateur à envoyer.</span>
                     </div>
                     <div class="form-group">
                         <label for="usrname"><span class="glyphicon glyphicon-user"></span> Message : </label>
-                        <textarea rows="3" class="span10" name="message" placeholder="Taper un message ici..."></textarea>
-                </div>
-                    <div class="alert alert-success span10">
+                        <textarea rows="3" class="span12" name="message" placeholder="Taper un message ici..."></textarea>
+                    </div>
+                    <div class="alert alert-success center span10">
                         <a data-dismiss="alert" class="close">×</a>
                         <strong>Pièce Jointe Associée : </strong> la pièce jointe est prête à être envoyé.
                     </div>

@@ -170,9 +170,10 @@ class RealisationsController extends Controller
             $somme = [];
             $total = 0;
             $rapport = 0;
+            $current = Carbon::now()->format('Y');
             //lister les mvts d'un compte
             $compte_id = Compte::where('compte',$compte)->first()->id;
-            $mouvement = Mouvement::where('compte_id',$compte_id)->orderBy('created_at','desc')->get();
+            $mouvement = Mouvement::where('compte_id',$compte_id)->whereYear('date',$current)->orderBy('created_at','desc')->get();
             foreach ($mouvement as $m) {
             if(!empty($m->debit->montant)){
                 $somme[] = $m->debit->montant;
@@ -199,12 +200,16 @@ class RealisationsController extends Controller
 
       public function get($compte){
             //get all realisations du compte 
-            $values = $this->allrealisations($compte);
-            $mouvement = $values['mouvement'];
-            $total = $values['total'];
-            $rapport = $values['rapport'];
-            
-            return view('realisation.lists',compact('mouvement','total','rapport'));
+            if( strlen($compte) >= 4){
+                $values = $this->allrealisations($compte);
+                $mouvement = $values['mouvement'];
+                $total = $values['total'];
+                $rapport = $values['rapport'];
+                return view('realisation.lists',compact('mouvement','total','rapport'));
+            }
+            else{
+                return view('realisation.except',compact('message'));
+            }
       }
 
 

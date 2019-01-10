@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="span4">
                                         <strong class="muted">Plus d'information</strong>
-                                        <p class="sepH_a"><span class="muted"><strong> Montant ( Total en Ar ) </strong></span><strong> : {{$total}} Ar</strong></p>	
+                                        <p class="sepH_a"><span class="muted"><strong> Montant ( Total en Ar ) </strong></span><strong> : {{number_format($total, 2, ',', ' ')}} Ar</strong></p>	
                                         @php
                                             $nature = substr($compte->compte,0,1);
                                             switch ($nature) {
@@ -84,49 +84,36 @@
                                         <table class="table invE_table">
                                             <thead>
                                                 <tr>
-                                                    <th>Date</th>
+                                                    <th>Numéro de compte</th>
                                                     <th>Libelle de mouvement</th>
+                                                    <th>Date</th>
                                                     <th>Action</th>
-                                                    <th>Caisse/Banque</th>
-                                                    <th>Numéro de pièce</th>
-                                                    <th>Numéro de chéque</th>
                                                     <th>Montant</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach($mouvements as $m)
                                                 <tr>
+                                                    <td>{{$m->compte->compte}}</td>
+                                                    <td>{{$m->compte->libelle}}</td>
                                                     <td>{{ date('d/m/Y',strtotime($m->date)) }}</td>
-                                                    <td>{{$m->libelle}}</td>
                                                     <td>
                                                         <div class="btn-group">
-                                                                <a href="{{route('mouvement.update',[$m->id,$compte->compte])}}" class="btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>
+                                                                <a href="#" class="btn btn-mini" title="Détails" data-toggle="modal" data-target="#details" onclick="detailAjax({{$m->compte->compte}})"><i class="icon-eye-open"></i></a>
+                                                                @include('journal.detail')
                                                                 <a href="#" class="btn btn-mini" title="Delete"><i class="icon-trash"></i></a>
                                                         </div>
                                                     </td>
-                                                    <td>
-                                                        @if ($m->type == 'B')
-                                                        <div class="sepH_b">
-                                                                <button class="btn btn-success disabled">Banque</button>
-                                                            </div>
-                                                        @elseif($m->type == 'C')
-                                                        <div class="sepH_b">
-                                                                <button class="btn btn-primary disabled">Caisse</button>
-                                                            </div>
-                                                        @endif
-                                                    </td>
-                                                    <td>{{$m->piece}}</td>
-                                                    <td>{{$m->cheque}}</td>
-                                                    <td><strong>{{ (!empty($m->debit->montant)?$m->debit->montant : $m->credit->montant) }} Ar </strong></td>
+                                                    <td><strong>{{ number_format($m->total, 2, ',', ' ') }} Ar </strong></td>
                                                 </tr>
                                                 @endforeach
                                                 <tr class="last_row">
-                                                    <td colspan="5">&nbsp;</td>
+                                                    <td colspan="3">&nbsp;</td>
                                                     <td colspan="2">
-                                                        <p class="sepH_a"><span class="muted sepV_b">Sous total</span>MGA {{$total}}</p>
+                                                        <p class="sepH_a"><span class="muted sepV_b">Sous total</span>MGA {{number_format($total, 2, ',', ' ')}}</p>
                                                         <p class="sepH_a"><span class="muted sepV_b">Rapport (%)</span>-</p>
                                                         <p class="sepH_a"><span class="muted sepV_b">Discount</span>-</p>
-                                                        <p><strong><span class="sepV_b">Total</span>MGA {{$total}}</strong></p>
+                                                        <p><strong><span class="sepV_b">Total</span>MGA {{number_format($total, 2, ',', ' ')}}</strong></p>
                                                     </td>
                                                 </tr>
                                             </tbody>
@@ -179,5 +166,28 @@
             </script>
              <!-- Loading Data -->
              <script src="{{asset('public/js/pages/beoro_form_elements.js')}}"></script>
+             <!-- Load Ajax -->
+             <script>
+                
+                    function detailAjax(str) {
+                        if (str=="") {
+                            document.getElementById("detail").innerHTML="";
+                            return;
+                        } 
+                        if (window.XMLHttpRequest) {
+                            // code for IE7+, Firefox, Chrome, Opera, Safari
+                            xmlhttp=new XMLHttpRequest();
+                        } else { // code for IE6, IE5
+                            xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+                        }
+                        xmlhttp.onreadystatechange=function() {
+                            if (this.readyState==4 && this.status==200) {
+                            document.getElementById("detail").innerHTML=this.responseText;
+                            }
+                        }
+                        xmlhttp.open("GET","{{ url('private/mouvement-detail/').'/' }}"+str,true);
+                        xmlhttp.send();
+                    }
+             </script>
 
 @endsection

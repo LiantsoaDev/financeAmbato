@@ -78,6 +78,8 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	Route::post('update-mouvement',['as'=>'mouvement.action.update','uses'=>'MouvementsController@edit']);
 	//Envoie email avec piece jointe
 	Route::post('send-email',['as'=>'send.email','uses'=>'MouvementsController@attachement']);
+	//Mouvement detail ajax Compte Enfant
+	Route::get('mouvement-detail/{compte}',['as'=>'mouvement.detail.ajax','uses'=>'MouvementsController@ajax_detail_compteChild'])->where('compte','[0-9]+');
 
 	//Route test
 	Route::get('test-email', function () {
