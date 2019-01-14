@@ -74,6 +74,17 @@ class Compte extends Model
     }
 
     /**
+     * A Compte belongsTo Realisation
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+
+     public function realisation()
+     {
+        return $this->belongsTo('App\Models\Realisation');
+     }
+
+    /**
     * getter of libelle
     * 
     * @return string 

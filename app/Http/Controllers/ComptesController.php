@@ -36,18 +36,6 @@ class ComptesController extends Controller
     }
 
     /**
-     * listes des comptes 
-     * 
-     * @return \Illuminate\Http\Response
-     */
-
-    public function list()
-    {   
-        $comptes = Compte::all();
-    	return view('budget.index',compact('comptes'));
-    }
-
-    /**
      * fonction qui identifie la nature d'un compte soit crediteur ou débiteur
      * 
      * @param \Illuminate\Http\Request 

@@ -2,10 +2,10 @@
 <style>
     .modal.fade.in.modal-b
     {
-        width: 1050px;
+        width: 1100px;
         margin: auto;
         top: 10%;
-        left: 18%;
+        left: 16%;
     }
 </style>
         <!-- Modal -->

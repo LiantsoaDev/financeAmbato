@@ -68,7 +68,7 @@
                                     <a href="javascript:void(0)">Budgetisations</a>
                                     <ul>
                                         <li>
-                                            <a href="{{route('budget.list')}}">Listes</a>
+                                            <a href="{{route('select.budget',\Carbon\Carbon::now()->format('Y'))}}">Listes du budget</a>
                                         </li>
                                         <li>
                                             <a href="{{route('create.budget')}}">Nouveau budget</a>

@@ -33,8 +33,6 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	//Route AJAX Entite 
 	Route::get('getentite/{type}',['as' => 'get.entite','uses' => 'EntitesController@store'])->where('type','[a-z0-9\-]+');
 
-	//Route form lists Budget 
-	Route::get('lists-budgets',['as' => 'budget.list', 'uses' => 'ComptesController@list']);
 	//Show form to create a new instance of Budget 
 	Route::get('create-budget',['as' => 'create.budget', 'uses' => 'BudgetsController@create']);
 	//Action: Insertion d'une nouvelle instance Budget

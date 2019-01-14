@@ -231,6 +231,6 @@
                     $('#inv_form')[0].reset();
                 }});
             });
-    </script>
+        </script>
 
 @endsection

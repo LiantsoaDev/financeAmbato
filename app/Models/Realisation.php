@@ -36,7 +36,7 @@ class Realisation extends Model
      * @var array
      */
     
-    protected $visible = array('compte_id','budget_id','type','debit_id','credit_id', 'date');
+    protected $visible = array('compte_id','budget_id','total','date');
 
     /**
      * fonction qui recuperer la totale de la realisation 
@@ -63,5 +63,16 @@ class Realisation extends Model
      {
          return $this->belongsTo('App\Models\Compte');
      }
+
+     /**
+      * une realisation est associé à un budget
+      *
+      * @return \Illuminate\Database\Eloquent\HasMany::class
+      */
+
+      public function budget()
+      {
+          return $this->belongsTo('App\Models\Budget', 'budget_id');
+      }
 
 }

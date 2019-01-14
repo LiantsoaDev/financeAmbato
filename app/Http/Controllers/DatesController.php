@@ -93,4 +93,16 @@ class DatesController extends Controller
           return Annee::where('annee',$this->date)->first();
       }
 
+      /**
+       * Listes des informations des Années précedentes
+       * 
+       * @return \Illuminate\Http\Response
+       */
+
+       public function precedente(){
+           $precedente = Carbon::create($this->date)->subYear(1)->format('Y');
+           $info_date = Annee::where('annee',$precedente)->first();
+           return $info_date;
+       }
+
 }
