@@ -139,6 +139,7 @@ class BudgetsController extends Controller
             foreach($get_budget as $key => $value){
                 $budget[$value->compte_id] = $value->montant;
             }
+            
             return view('budget.create',compact('comptes','action','annee','budget'));
        }
 

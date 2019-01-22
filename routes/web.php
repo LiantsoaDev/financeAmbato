@@ -78,6 +78,12 @@ Route::prefix('private')->middleware('auth')->group(function () {
 	Route::post('send-email',['as'=>'send.email','uses'=>'MouvementsController@attachement']);
 	//Mouvement detail ajax Compte Enfant
 	Route::get('mouvement-detail/{compte}',['as'=>'mouvement.detail.ajax','uses'=>'MouvementsController@ajax_detail_compteChild'])->where('compte','[0-9]+');
+	//Filtre des mouvements et journal par intervalle de date
+	Route::post('filtre-journal',['as'=>'mouvement.journal.filtre','uses'=>'MouvementsController@filtre']);
+
+	//Compte
+	//Details d'un compte dans la page d'accueil
+	Route::get('detail-compte/{compte}',['as' => 'compte.detail', 'uses'=>'HomeController@detail_compte'])->where('compte','[0-9]+');
 
 	//Route test
 	Route::get('test-email', function () {

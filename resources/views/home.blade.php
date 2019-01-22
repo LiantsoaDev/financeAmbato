@@ -146,12 +146,16 @@
                 </div>
                 <div class="row-fluid">
                     <div class="span12">
+
+                        @include('notify.message')
+
                             <div class="w-box w-box-orange">
                                         <div class="w-box-header">
                                             <h4>Column Reorder & toggle visibility</h4>
                                         </div>
                                         <div class="w-box-content">
-                                            <table id="dt_colVis_Reorder" class="table table-striped table-condensed">
+                                                {{-- table-striped  --}}
+                                            <table id="dt_colVis_Reorder" class="table table-condensed">  
                                             <thead>
                                                 <tr>
                                                     <th>id</th>
@@ -166,20 +170,26 @@
                                             </thead>
                                             <tbody>
                                                 @foreach($comptes as $cpts)
-                                                <tr>
+                                                    @if ( strlen($cpts->compte) == 3 )
+                                                        <tr class="success">
+                                                    @elseif( strlen($cpts->compte) <= 2 )
+                                                        <tr class="error">
+                                                    @else
+                                                            <tr>
+                                                    @endif
                                                     <td>{{$cpts->id}}</td>
                                                     <td>{{$cpts->compte}}</td>
                                                     <td>{{$cpts->libelle}}</td>
-                                                    <td>{{ (!empty($realisation[$cpts->compte])? number_format($realisation[$cpts->compte]['realisation'], 2, ',', ' ').' Ar' : '-') }}</td>
+                                                    <td>{{ (!empty($realisation[$cpts->compte]['realisation'])? number_format($realisation[$cpts->compte]['realisation'], 2, ',', ' ').' Ar' : '-') }}</td>
                                                     <td>
                                                             <div class="btn-group">
                                                             <a href="{{route('budget.show','gTBtYrEP8X'.$cpts->id)}}" class="btn btn-mini" title="Edit"><i class="icon-pencil"></i></a>
-                                                                <a href="#" class="btn btn-mini" title="View"><i class="icon-eye-open"></i></a>
+                                                                <a href="{{route('compte.detail',$cpts->compte)}}" class="btn btn-mini" title="View"><i class="icon-eye-open"></i></a>
                                                                 <a href="#" class="btn btn-mini" title="Delete"><i class="icon-trash"></i></a>
                                                             </div>
                                                     </td>
-                                                    <td>{{ (!empty($realisation[$cpts->compte])? number_format($realisation[$cpts->compte]['budget'], 2, ',', ' ').' Ar' : '-') }}</td>
-                                                    <td>{{ (!empty($realisation[$cpts->compte])? number_format($realisation[$cpts->compte]['precedente'], 2, ',', ' ').' Ar' : '-') }}</td>
+                                                    <td>{{ (!empty($realisation[$cpts->compte]['budget'])? number_format($realisation[$cpts->compte]['budget'], 2, ',', ' ').' Ar' : '-') }}</td>
+                                                    <td>{{ (!empty($realisation[$cpts->compte]['precedente'])? number_format($realisation[$cpts->compte]['precedente'], 2, ',', ' ').' Ar' : '-') }}</td>
                                                     <td>93 000,00 Ar</td>
                                                 </tr>
                                                 @endforeach

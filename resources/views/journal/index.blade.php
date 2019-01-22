@@ -6,6 +6,8 @@
             <link rel="stylesheet" href="{{asset('public/js/lib/datatables/css/datatables_beoro.css')}}">
             <link rel="stylesheet" href="{{asset('public/js/lib/datatables/extras/TableTools/media/css/TableTools.css')}}">
 
+        <!-- datepicker -->
+        <link rel="stylesheet" href="{{asset('public/js/lib/bootstrap-datepicker/css/datepicker.css')}}">
 
         <!-- main stylesheet -->
             <link rel="stylesheet" href="{{asset('public/css/beoro.css')}}">
@@ -18,9 +20,9 @@
         <li><a href="{{route('home')}}"><i class="icon-home"></i></a></li>
         <li><a href="javascript:void(0)">Réalisations</a></li>
         <li><a href="{{URL::current()}}">Journal</a></li>
+        <button class="btn btn-inverse pull-right accordion-toggle" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne1"> Appliquer un filtre</button>
     </ul>
 </div>
-
 @endsection
 
 
@@ -30,6 +32,9 @@
         <div class="row-fluid">
             <div class="span12">
                 <div class="w-box w-box-green">
+                    
+                    @include('journal.accordions')
+
                     <div class="w-box-header">
                         <h4>Basic Datatables</h4>
                     </div>
@@ -80,7 +85,23 @@
             <script src="{{asset('public/js/lib/datatables/extras/TableTools/media/js/ZeroClipboard.js')}}"></script>
         <!-- datatables bootstrap integration -->
             <script src="{{asset('public/js/lib/datatables/js/jquery.dataTables.bootstrap.min.js')}}"></script>
-
             <script src="{{asset('public/js/pages/beoro_datatables.js')}}"></script>
+            
+
+            <!-- masked inputs -->
+            <script src="{{asset('public/js/lib/jquery-inputmask/jquery.inputmask.min.js')}}"></script>
+            <script src="{{asset('public/js/lib/jquery-inputmask/jquery.inputmask.extensions.js')}}"></script>
+            <script src="{{asset('public/js/lib/jquery-inputmask/jquery.inputmask.date.extensions.js')}}"></script>
+            <!-- datepicker -->
+            <script src="{{asset('public/js/lib/bootstrap-datepicker/js/bootstrap-datepicker.min.js')}}"></script>
+            <script src="{{asset('public/js/pages/beoro_form_elements.js')}}"></script>
+            <!-- multiple inputs -->
+            <script>
+                $(function() {
+                    $( "#dpick1" ).datepicker({ dateFormat: "yy-mm-dd" });
+                    $( "#intervallepicker1" ).datepicker({ dateFormat: "yy-mm-dd" });
+                    $( "#intervallepicker2" ).datepicker({ dateFormat: "yy-mm-dd" });
+                }); 
+            </script>
 
 @endsection

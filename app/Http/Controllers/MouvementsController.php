@@ -55,6 +55,9 @@ class MouvementsController extends Controller
                     $tab_chaines[ substr($l->compte->compte,0,3) ] = json_decode(json_encode($mores),false);
                 }
            }
+           //enregistrer les realisations des comptes meres
+           $save = $this->saveCompteMere($somme);
+
            return view('journal.index',compact('tab_chaines'));
        }
 
@@ -253,4 +256,84 @@ class MouvementsController extends Controller
             }
                 
           }
+
+          /**
+           * Filtre par intervalle de date Journal des comptes
+           * 
+           * @param \Illuminate\Http\Request
+           * @return \Illuminate\Http\Response
+           */
+
+           public function filtre(Request $request){
+                $_debut = date('Y-m-d',strtotime($request->debut));
+                $_fin = date('Y-m-d',strtotime($request->fin));
+
+                $listes = Mouvement::whereBetween('date',[$_debut,$_fin])->orderBy('date','desc')->get();           
+                
+                $tab_chaines = [];
+                $chaine = $totaux = '';
+                $getvalue = 0;
+    
+                foreach($listes as $l){
+                    if(preg_match( '/'.substr( $l->compte->compte,0,3).'/i', $l->compte->compte ) ){
+                        $details = Compte::where('compte',substr( $l->compte->compte,0,3))->first();
+    
+                        //calcul des totaux d'un compte mêre
+                        if( !empty($l->credit->montant) )
+                            $getvalue = $l->credit->montant;
+                        elseif( !empty($l->debit->montant))
+                            $getvalue = $l->debit->montant;
+                        else
+                            $getvalue = 0;
+                        
+                        $somme[ substr( $l->compte->compte,0,3) ][] = $getvalue;
+                        $totaux = array_sum($somme[ substr( $l->compte->compte,0,3) ]);
+    
+                        $mores = ['libelle' => $details->libelle, 'montant'=>number_format($totaux, 2, ',', ' ')];
+                        $tab_chaines[ substr($l->compte->compte,0,3) ] = json_decode(json_encode($mores),false);
+                    }
+                }
+                /**
+                 * tab_chaines [] [ 'libelle' , 'montant' ]
+                 */
+                return view('journal.index',compact('tab_chaines'));
+
+           }
+
+           /**
+            * Enregistrement des realisations pour les comptes Meres
+            *
+            * @param \Illuminate\Http\Request array
+            * @return \Illuminate\Http\Response
+            */
+
+            public function saveCompteMere(array $array){
+                try{
+                    if( is_array($array) ){
+                        foreach( $array as $key => $value ){
+                            if( strlen($key) <= 3 ){
+                                $getcompte = Compte::where('compte',$key)->first();
+                                if( count($getcompte) >=1 ){
+                                    $budget = new BudgetsController();
+                                    $actually = $budget->progress();
+                                    $save = Realisation::where('compte_id',$getcompte->id)->where('budget_id',$actually->id)->get();
+                                    if( count($save) >=1 ){
+                                        $save->total = array_sum($array($key));
+                                        $save->save();
+                                    }else{
+                                        $create = new Realisation();
+                                        $create->compte_id = $getcompte->id;
+                                        $create->budget_id = $actually->id;
+                                        $create->total = array_sum($array[$key]);
+                                        $create->date = date('Y-m-d');
+                                        $create->save();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }catch(Exception $e){
+                    report($e);
+                }
+            }
 }
